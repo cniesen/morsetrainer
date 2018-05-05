@@ -1,6 +1,7 @@
-package com.niesens.morsetrainer;
+package com.niesens.morsetrainer.filepicker;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.util.List;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,8 +10,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.niesens.morsetrainer.R;
+
 public class FilePickerAdapter extends RecyclerView.Adapter<FilePickerAdapter.ViewHolder> {
-    private ArrayList<String> values;
+    private List<File> wordListFiles;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -29,19 +32,9 @@ public class FilePickerAdapter extends RecyclerView.Adapter<FilePickerAdapter.Vi
         }
     }
 
-    public void add(int position, String item) {
-        values.add(position, item);
-        notifyItemInserted(position);
-    }
-
-    public void remove(int position) {
-        values.remove(position);
-        notifyItemRemoved(position);
-    }
-
     // Provide a suitable constructor (depends on the kind of dataset)
-    public FilePickerAdapter(ArrayList<String> myDataset) {
-        values = myDataset;
+    public FilePickerAdapter(List<File> wordListFiles) {
+        this.wordListFiles = wordListFiles;
     }
 
     // Create new views (invoked by the layout manager)
@@ -63,22 +56,22 @@ public class FilePickerAdapter extends RecyclerView.Adapter<FilePickerAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        final String name = values.get(position);
-        holder.txtHeader.setText(name);
+        final File wordListFile = wordListFiles.get(position);
+        holder.txtHeader.setText(wordListFile.getName());
         holder.txtHeader.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                remove(position);
-            }
+                //ToDo: return file
+                numtest+=1;
+                TextView t = (TextView) findViewById(R.id.counter);
+                t.setText(numtest+"");            }
         });
-
-        holder.txtFooter.setText("Footer: " + name);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return values.size();
+        return wordListFiles.size();
     }
 
 }
