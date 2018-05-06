@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -26,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_WRITE_STORAGE = 112;
     private static final int FILE_PICKER_REQUEST_CODE = 1;
 
-    Button b1;
-    Button b2;
+    Button button_startStop;
+    Button button_trainingFile;
     Trainer trainer;
     int i;
 
@@ -46,16 +47,23 @@ public class MainActivity extends AppCompatActivity {
 
         trainer = new Trainer(this);
 
-        b1= findViewById(R.id.button);
-        b1.setOnClickListener(new View.OnClickListener() {
+        button_startStop = findViewById(R.id.button);
+        button_startStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                trainer.train();
+                if (trainer.isRunning() || TextUtils.isEmpty(trainer.getWordlistFile())) {
+                    trainer.setRunning(false);
+                    button_startStop.setText(R.string.trainingStartText);
+                } else {
+                    trainer.setRunning(true);
+                    trainer.train();
+                    button_startStop.setText(R.string.trainingStopText);
+                }
             }
         });
 
-        b2= findViewById(R.id.trainingFile);
-        b2.setOnClickListener(new View.OnClickListener() {
+        button_trainingFile = findViewById(R.id.trainingFile);
+        button_trainingFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, FilePickerActivity.class);
@@ -86,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == FILE_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
-            b2.setText(data.getStringExtra("wordListFileName"));
+            button_trainingFile.setText(data.getStringExtra("wordListFileName"));
+            trainer.setWordListFile(data.getStringExtra("wordListFileName"));
         }
     }
 

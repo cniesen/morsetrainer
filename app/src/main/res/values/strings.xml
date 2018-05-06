@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Claus\' Morse Trainer</string>
-    <string name="action_settings">Settings</string>
+    <string name="trainingStartText">Start</string>
+    <string name="trainingStopText">Stop</string>
+    <string name="home_page_url">https://k0tet.github.io/</string>
+    <string name="app_description">A little program to assist me in learning morse code.\n\nTo create your own word list create a new text file with the \".txt\" suffix in the \"Claus\' Morse Trainer\" directory of the internal storage. Each line should be a character, word or phrase that you want to learn. If the spoken words differ from the morse text then separate the morse text with a vertical pipe \"|\" from the spoken text (e.g. \"fb|fine business\").\n\nSpecial thanks to my CW Academy advisor Dan and buddy Matt for not giving up on me.</string>
 </resources>
