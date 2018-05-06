@@ -114,10 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(this, "dir created", Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(this, "dir exists", Toast.LENGTH_SHORT).show();
         }
     }
 
