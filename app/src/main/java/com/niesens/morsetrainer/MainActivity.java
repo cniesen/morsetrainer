@@ -24,6 +24,7 @@ import java.io.OutputStream;
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_WRITE_STORAGE = 112;
+    private static final int FILE_PICKER_REQUEST_CODE = 1;
 
     Button b1;
     Button b2;
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, FilePickerActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -79,6 +80,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == FILE_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
+            b2.setText(data.getStringExtra("wordListFileName"));
+        }
+    }
+
     private void createExternalStorageDirectory() {
         String externalStoragePath = Environment.getExternalStorageDirectory() + "/" + getString(R.string.app_name);
         File file = new File(externalStoragePath);

@@ -3,6 +3,10 @@ package com.niesens.morsetrainer.filepicker;
 import java.io.File;
 import java.util.List;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.niesens.morsetrainer.MainActivity;
 import com.niesens.morsetrainer.R;
 
 public class FilePickerAdapter extends RecyclerView.Adapter<FilePickerAdapter.ViewHolder> {
@@ -60,11 +65,14 @@ public class FilePickerAdapter extends RecyclerView.Adapter<FilePickerAdapter.Vi
         holder.txtHeader.setText(wordListFile.getName());
         holder.txtHeader.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 //ToDo: return file
-                numtest+=1;
-                TextView t = (TextView) findViewById(R.id.counter);
-                t.setText(numtest+"");            }
+                Activity activity = (Activity) view.getContext();
+                Intent intent = new Intent(view.getContext(), MainActivity.class);
+                intent.putExtra("wordListFileName", wordListFile.getName());
+                activity.setResult(Activity.RESULT_OK, intent);
+                activity.finish();
+            }
         });
     }
 
