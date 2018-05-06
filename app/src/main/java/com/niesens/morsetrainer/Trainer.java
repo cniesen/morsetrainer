@@ -19,7 +19,7 @@ public class Trainer {
 
     Trainer(Activity activity) {
         this.activity = activity;
-        this.wordList = loadWordList("words.txt");
+        this.wordList = loadWordList("memory_words.txt");
 
         this.morsePlayer = new MorsePlayer();
         this.textSpeaker = new TextSpeaker(activity, this);
