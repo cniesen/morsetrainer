@@ -37,12 +37,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         boolean hasPermission = (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
-        if (!hasPermission) {
+        if (hasPermission) {
+            createExternalStorageDirectory();
+        } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     REQUEST_WRITE_STORAGE);
         }
-        createExternalStorageDirectory();
         setContentView(R.layout.activity_main);
 
         trainer = new Trainer(this);
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         {
             case REQUEST_WRITE_STORAGE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //reload my activity with permission granted or use the features what required the permission
+                    createExternalStorageDirectory();
                 } else {
                     Toast.makeText(this, "The app was not allowed to write to your storage. Hence, it cannot function properly. Please consider granting it this permission", Toast.LENGTH_LONG).show();
                 }
