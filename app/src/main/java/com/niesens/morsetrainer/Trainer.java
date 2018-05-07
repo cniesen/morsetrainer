@@ -52,7 +52,8 @@ public class Trainer {
         }
 
         int wordNumber = random.nextInt(wordList.size());
-        morsePlayer.play(MorseTranslate.textToMorse(wordList.get(wordNumber).getMorseText()));
+        Word word = wordList.get(wordNumber);
+        morsePlayer.play(MorseTranslate.textToMorse(word.getMorseText()));
 
         try {
             Thread.sleep(1500);
@@ -60,7 +61,7 @@ public class Trainer {
             e.printStackTrace();
         }
 
-        textSpeaker.speak(wordList.get(wordNumber).getSpeakText());
+        textSpeaker.speak(word.getSpeakText());
     }
 
     private void loadWordList() {
