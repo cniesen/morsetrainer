@@ -83,7 +83,8 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     createExternalStorageDirectory();
                 } else {
-                    Toast.makeText(this, "The app was not allowed to write to your storage. Hence, it cannot function properly. Please consider granting it this permission", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getString(R.string.app_name) + " closed.\nStorage read/write permission is required.", Toast.LENGTH_LONG).show();
+                    finish();
                 }
             }
         }
