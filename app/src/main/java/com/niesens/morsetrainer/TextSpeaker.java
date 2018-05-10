@@ -12,11 +12,10 @@ public class TextSpeaker  {
     private TextToSpeech textToSpeech;
     private HashMap<String, String> textToSpeechParams;
     private Activity activity;
-    private Trainer trainer;
+    private Object trainer;
 
-    TextSpeaker(Activity activity, Trainer trainer) {
+    TextSpeaker(Activity activity) {
         this.activity = activity;
-        this.trainer = trainer;
         textToSpeech = new TextToSpeech(activity, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -30,7 +29,8 @@ public class TextSpeaker  {
         textToSpeechParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, activity.getPackageName());
     }
 
-    public void speak(final String text) {
+    public void speak(final String text, final Object trainer) {
+        this.trainer = trainer;
         activity.runOnUiThread(new Runnable() {
             public void run() {
                 Toast.makeText(activity, text, Toast.LENGTH_SHORT).show();
@@ -38,6 +38,10 @@ public class TextSpeaker  {
         });
         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, textToSpeechParams);
 
+    }
+
+    public void stop() {
+        textToSpeech.stop();
     }
 
     private UtteranceProgressListener utteranceListener = new UtteranceProgressListener() {
@@ -52,7 +56,9 @@ public class TextSpeaker  {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            trainer.train();
+            synchronized (trainer) {
+                trainer.notify();
+            }
         }
 
         @Override

@@ -8,19 +8,22 @@ import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.niesens.morsetrainer.filepicker.FilePickerActivity;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,12 +32,17 @@ public class MainActivity extends AppCompatActivity {
 
     Button button_startStop;
     Button button_trainingFile;
+    private MorsePlayer morsePlayer;
+    private TextSpeaker textSpeaker;
+    private List<Word> wordList;
     Trainer trainer;
     int i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        morsePlayer = new MorsePlayer();
+        textSpeaker = new TextSpeaker(this);
         boolean hasPermission = (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
         if (hasPermission) {
@@ -46,19 +54,16 @@ public class MainActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_main);
 
-        trainer = new Trainer(this);
-
         button_startStop = findViewById(R.id.button);
         button_startStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (trainer.isRunning() || TextUtils.isEmpty(trainer.getWordlistFile())) {
-                    trainer.setRunning(false);
+                if (getString(R.string.trainingStopText).contentEquals(button_startStop.getText())) {
                     button_startStop.setText(R.string.trainingStartText);
+                    stopTrainer();
                 } else {
-                    trainer.setRunning(true);
-                    trainer.train();
                     button_startStop.setText(R.string.trainingStopText);
+                    startTrainer();
                 }
             }
         });
@@ -72,6 +77,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void startTrainer() {
+        trainer = new Trainer(morsePlayer, textSpeaker, wordList);
+        trainer.execute();
+    }
+
+    private void stopTrainer() {
+        if (trainer != null) {
+            trainer.cancel(true);
+            trainer = null;
+            morsePlayer.stop();
+            textSpeaker.stop();
+        }
     }
 
     @Override
@@ -97,8 +116,38 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == FILE_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
             button_trainingFile.setText(data.getStringExtra("wordListFileName"));
-            trainer.setWordListFile(data.getStringExtra("wordListFileName"));
+            wordList = createWordList(data.getStringExtra("wordListFileName"));
         }
+    }
+
+    private List<Word> createWordList(String fileName) {
+        List<Word> wordList = new ArrayList<>();
+
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new InputStreamReader(getAssets().open(fileName), "UTF-8"));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] lineArray = line.split("\\|");
+                if (lineArray.length > 1) {
+                    wordList.add(new Word(lineArray[0], lineArray[1]));
+                } else {
+                    wordList.add(new Word(lineArray[0], lineArray[0]));
+                }
+            }
+        } catch (IOException e) {
+            //log the exception
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    //log the exception
+                }
+            }
+        }
+        return wordList;
     }
 
     private void createExternalStorageDirectory() {

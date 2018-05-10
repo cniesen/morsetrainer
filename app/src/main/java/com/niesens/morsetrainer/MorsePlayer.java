@@ -4,12 +4,10 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MorsePlayer {
     private static final int SAMPLE_RATE_HZ = 48000;
 
+    private int charPosition;
     private int frequency;
     private int wpm;
     private int farnsworth;
@@ -131,8 +129,8 @@ public class MorsePlayer {
     public void play(String morseCode) {
         audioTrack.play();
 
-        for (int i = 0; i < morseCode.length(); i++) {
-            switch(morseCode.charAt(i)) {
+        for (charPosition = 0; charPosition < morseCode.length(); charPosition++) {
+            switch(morseCode.charAt(charPosition)) {
                 case '.':
                     playDit();
                     break;
@@ -148,6 +146,10 @@ public class MorsePlayer {
             }
         }
         audioTrack.stop();
+    }
+
+    public void stop() {
+        charPosition = Integer.MAX_VALUE;
     }
 
     public void destroy() {
