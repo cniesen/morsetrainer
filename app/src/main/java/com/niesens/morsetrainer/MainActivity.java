@@ -18,9 +18,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,10 +59,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (getString(R.string.trainingStopText).contentEquals(button_startStop.getText())) {
-                    button_startStop.setText(R.string.trainingStartText);
                     stopTrainer();
                 } else {
-                    button_startStop.setText(R.string.trainingStopText);
                     startTrainer();
                 }
             }
@@ -80,11 +78,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startTrainer() {
+        button_startStop.setText(R.string.trainingStopText);
         trainer = new Trainer(morsePlayer, textSpeaker, wordList);
         trainer.execute();
     }
 
     private void stopTrainer() {
+        button_startStop.setText(R.string.trainingStartText);
         if (trainer != null) {
             trainer.cancel(true);
             trainer = null;
@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == FILE_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
+            stopTrainer();
             button_trainingFile.setText(data.getStringExtra("wordListFileName"));
             wordList = createWordList(data.getStringExtra("wordListFileName"));
         }
@@ -125,7 +126,8 @@ public class MainActivity extends AppCompatActivity {
 
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new InputStreamReader(getAssets().open(fileName), "UTF-8"));
+            String externalStoragePath = Environment.getExternalStorageDirectory() + "/" + getString(R.string.app_name);
+            reader = new BufferedReader(new FileReader(new File(externalStoragePath, fileName)));
 
             String line;
             while ((line = reader.readLine()) != null) {
@@ -137,13 +139,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         } catch (IOException e) {
-            //log the exception
+            e.printStackTrace();
         } finally {
             if (reader != null) {
                 try {
                     reader.close();
                 } catch (IOException e) {
-                    //log the exception
+                    e.printStackTrace();
                 }
             }
         }
@@ -201,7 +203,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onDestroy(){
-        trainer.destroy();
+        trainer.cancel(true);
+        morsePlayer.destroy();
+        textSpeaker.destroy();
         super.onDestroy();
     }
 

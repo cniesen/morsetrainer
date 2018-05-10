@@ -21,30 +21,25 @@ public class Trainer extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... params) {
 
         synchronized (this) {
-        while(!isCancelled()) {
-            int wordNumber = random.nextInt(wordList.size());
-            Word word = wordList.get(wordNumber);
-            morsePlayer.play(MorseTranslate.textToMorse(word.getMorseText()));
+            while(!isCancelled()) {
+                int wordNumber = random.nextInt(wordList.size());
+                Word word = wordList.get(wordNumber);
+                morsePlayer.play(MorseTranslate.textToMorse(word.getMorseText()));
 
-            try {
-                Thread.sleep(1500);
-            } catch (InterruptedException e) {
-                return null;
-            }
-            textSpeaker.speak(word.getSpeakText(), this);
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                return null;
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    return null;
+                }
+                textSpeaker.speak(word.getSpeakText(), this);
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    return null;
+                }
             }
         }
-    }
         return null;
-    }
-
-    public void destroy() {
-        morsePlayer.destroy();
-        textSpeaker.destroy();
     }
 
 }
