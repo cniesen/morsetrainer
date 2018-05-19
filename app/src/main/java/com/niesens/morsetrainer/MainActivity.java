@@ -203,7 +203,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onDestroy(){
-        trainer.cancel(true);
+        if (trainer != null) {
+            trainer.cancel(true);
+        }
         morsePlayer.destroy();
         textSpeaker.destroy();
         super.onDestroy();
