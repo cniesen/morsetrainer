@@ -86,7 +86,7 @@ public class MorseTranslate {
             if (text.charAt(i) == '<') {
                 // ToDo prosign stuff
             } else {
-                morseCode.append(charToMorse.get(text.charAt(i)));
+                morseCode.append(charToMorse.get(Character.toLowerCase(text.charAt(i))));
                 morseCode.append(" ");
             }
         }
