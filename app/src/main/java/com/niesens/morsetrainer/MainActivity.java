@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_main);
 
-        button_startStop = findViewById(R.id.button);
+        button_startStop = findViewById(R.id.startStop);
         button_startStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startTrainer() {
+        if (wordList == null || wordList.isEmpty()) {
+            return;
+        }
         button_startStop.setText(R.string.trainingStopText);
         trainer = new Trainer(morsePlayer, textSpeaker, wordList);
         trainer.execute();
@@ -118,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
             stopTrainer();
             button_trainingFile.setText(data.getStringExtra("wordListFileName"));
             wordList = createWordList(data.getStringExtra("wordListFileName"));
+            button_startStop.setEnabled(true);
         }
     }
 
@@ -203,7 +207,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onDestroy(){
-        trainer.cancel(true);
+        if (trainer != null) {
+            trainer.cancel(true);
+        }
         morsePlayer.destroy();
         textSpeaker.destroy();
         super.onDestroy();
