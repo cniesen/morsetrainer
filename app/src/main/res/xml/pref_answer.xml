@@ -1,0 +1,41 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sample="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory>
+
+        <com.niesens.morsetrainer.seekbarpreference.SeekBarPreference
+            android:key="delay_before_answer"
+            android:title="@string/pref_title_delay_before_answer"
+            android:summary="@string/pref_description_delay_before_answer"
+            android:defaultValue="@integer/default_delay_before_answer"
+            sample:msbp_minValue="100"
+            sample:msbp_maxValue="10000"
+            sample:msbp_interval="100"
+            sample:msbp_measurementUnit="ms"/>
+
+        <com.niesens.morsetrainer.seekbarpreference.SeekBarPreference
+            android:key="delay_after_answer"
+            android:title="@string/pref_title_delay_after_answer"
+            android:summary="@string/pref_description_delay_after_answer"
+            android:defaultValue="@integer/default_delay_after_answer"
+            sample:msbp_minValue="100"
+            sample:msbp_maxValue="10000"
+            sample:msbp_interval="100"
+            sample:msbp_measurementUnit="ms"/>
+
+        <SwitchPreference
+            android:defaultValue="@bool/default_answer_toast"
+            android:key="answer_toast"
+            android:title="@string/pref_title_answer_toast"
+            android:summary="@string/pref_description_answer_toast"
+            android:disableDependentsState="true"/>
+
+        <com.niesens.morsetrainer.ResetAnswerSettings
+            android:title="@string/pref_title_answer_reset"
+            android:summary="@string/pref_description_answer_reset"
+            android:dialogTitle="@string/pref_title_answer_reset"
+            android:dialogMessage="@string/pref_description_answer_reset"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,7 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Claus\' Morse Trainer</string>
     <string name="trainingStartText">Start</string>
     <string name="trainingStopText">Stop</string>
     <string name="home_page_url">https://k0tet.github.io/</string>
-    <string name="app_description">A little program to assist me in learning morse code.\n\nTo create your own word list create a new text file with the \".txt\" suffix in the \"Claus\' Morse Trainer\" directory of the internal storage. Each line should be a character, word or phrase that you want to learn. If the spoken words differ from the morse text then separate the morse text with a vertical pipe \"|\" from the spoken text (e.g. \"fb|fine business\").\n\nSpecial thanks to my CW Academy advisor Dan and buddy Matt for not giving up on me.</string>
+    <string name="support_page_url">https://github.com/k0tet/morsetrainer</string>
+    <string name="app_description">A little program to assist me in learning morse code.</string>
+    <string name="help_create_word_list">To create your own word list create a new text file with the \".txt\" suffix in the \"Claus\' Morse Trainer\" directory of the internal storage. Each line should be a character, word or phrase that you want to learn. If the spoken words differ from the morse text then separate the morse text with a vertical pipe \"|\" from the spoken text (e.g. \"fb|fine business\").</string>
+    <string name="support">To report issues, get support or view the source code please visit the following link.</string>
+    <string name="note_of_thanks">Special thanks to my CW Academy advisor Dan and buddy Matt for not giving up on me.</string>
+    <string name="signature">Best wishes to your morse study,\n\tClaus Niesen (K0TET)</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+    <string name="pref_morse">Morse Code</string>
+
+    <string name="pref_title_morse_wpm">Speed (wpm)</string>
+    <string name="pref_description_morse_wpm">The speed in words per minute, taking "Paris" as the standard word.</string>
+
+    <string name="pref_title_morse_fransworth">Fransworth spacing</string>
+    <string name="pref_description_morse_fransworth">The Fransworth speed slows down the spacing between letters and words, making it easier to learn morse.  It should be lower value than the speed.</string>
+
+    <string name="pref_title_morse_pitch">Pitch (Hz)</string>
+    <string name="pref_description_morse_pitch">Higher pitch makes a higher tone.</string>
+
+    <string name="pref_title_morse_random_pitch">Random pitch</string>
+    <string name="pref_description_morse_random_pitch">The pitch changes randomly for every training word.</string>
+
+    <string name="pref_title_morse_reset">Reset Preferences</string>
+    <string name="pref_description_morse_reset">Reset morse preferences to default values.</string>
+
+    <string name="pref_answer">Answer</string>
+
+    <string name="pref_title_delay_before_answer">Delay before answer</string>
+    <string name="pref_description_delay_before_answer">How long to wait before the answer is revealed.</string>
+
+    <string name="pref_title_delay_after_answer">Delay after answer</string>
+    <string name="pref_description_delay_after_answer">How long to wait before playing the next morse word.</string>
+
+    <string name="pref_title_answer_toast">Display toast</string>
+    <string name="pref_description_answer_toast">Display answers as toast messages on screen.</string>
+
+    <string name="pref_title_answer_reset">Reset Preferences</string>
+    <string name="pref_description_answer_reset">Reset answer preferences to default values.</string>
+
 </resources>

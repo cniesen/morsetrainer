@@ -2,12 +2,17 @@ package com.niesens.morsetrainer;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -25,7 +30,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final int REQUEST_WRITE_STORAGE = 112;
     private static final int FILE_PICKER_REQUEST_CODE = 1;
@@ -41,8 +46,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        morsePlayer = new MorsePlayer();
-        textSpeaker = new TextSpeaker(this);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        morsePlayer = new MorsePlayer(getMorseWpmPreference(sharedPreferences), getMorseFransworthPreference(sharedPreferences), getMorsePitchPreference(sharedPreferences), getMorseRandomPitchPreference(sharedPreferences));
+        textSpeaker = new TextSpeaker(this, getDelayBeforeAnswerPreference(sharedPreferences), getDelayAfterAnswerPreference(sharedPreferences), getAnswerToastPreference(sharedPreferences));
+
         boolean hasPermission = (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
         if (hasPermission) {
@@ -206,7 +215,32 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.app_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_settings:
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+            case R.id.menu_about:
+                Intent aboutIntent = new Intent(this, AboutActivity.class);
+                startActivity(aboutIntent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void onDestroy(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
+
         if (trainer != null) {
             trainer.cancel(true);
         }
@@ -215,4 +249,59 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        switch (key) {
+            case "morse_wpm" :
+                morsePlayer.setWpm(getMorseWpmPreference(sharedPreferences));
+                break;
+            case "morse_fransworth" :
+                morsePlayer.setFarnsworth(getMorseFransworthPreference(sharedPreferences));
+                break;
+            case "morse_pitch" :
+                morsePlayer.setPitch(getMorsePitchPreference(sharedPreferences));
+                break;
+            case "morse_random_pitch" :
+                morsePlayer.setRandomPitch(getMorseRandomPitchPreference(sharedPreferences));
+                break;
+            case "delay_before_answer" :
+                textSpeaker.setBeforeAnswerDelay(getDelayBeforeAnswerPreference(sharedPreferences));
+                break;
+            case "delay_after_answer" :
+                textSpeaker.setAfterAnswerDelay(getDelayAfterAnswerPreference(sharedPreferences));
+                break;
+            case "answer_toast" :
+                textSpeaker.setShowToast(getAnswerToastPreference(sharedPreferences));
+                break;
+        }
+
+    }
+
+    private int getMorseWpmPreference(SharedPreferences sharedPreferences) {
+        return sharedPreferences.getInt("morse_wpm", getResources().getInteger(R.integer.default_morse_wpm));
+    }
+
+    private int getMorseFransworthPreference(SharedPreferences sharedPreferences) {
+        return sharedPreferences.getInt("morse_fransworth", getResources().getInteger(R.integer.default_morse_fransworth));
+    }
+
+    private int getMorsePitchPreference(SharedPreferences sharedPreferences) {
+        return sharedPreferences.getInt("morse_pitch", getResources().getInteger(R.integer.default_morse_pitch));
+    }
+
+    private boolean getMorseRandomPitchPreference(SharedPreferences sharedPreferences) {
+        return sharedPreferences.getBoolean("morse_random_pitch", getResources().getBoolean(R.bool.default_morse_random_pitch));
+    }
+
+    private int getDelayBeforeAnswerPreference(SharedPreferences sharedPreferences) {
+        return sharedPreferences.getInt("delay_before_answer", getResources().getInteger(R.integer.default_delay_before_answer));
+    }
+
+    private int getDelayAfterAnswerPreference(SharedPreferences sharedPreferences) {
+        return sharedPreferences.getInt("delay_after_answer", getResources().getInteger(R.integer.default_delay_after_answer));
+    }
+
+    private boolean getAnswerToastPreference(SharedPreferences sharedPreferences) {
+        return sharedPreferences.getBoolean("answer_toast", getResources().getBoolean(R.bool.default_answer_toast));
+    }
 }
