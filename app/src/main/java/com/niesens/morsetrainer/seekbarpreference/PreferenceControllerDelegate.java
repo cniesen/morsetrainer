@@ -85,8 +85,7 @@ class PreferenceControllerDelegate implements SeekBar.OnSeekBarChangeListener, V
                 maxValue = a.getInt(R.styleable.SeekBarPreference_msbp_maxValue, DEFAULT_MAX_VALUE);
 
                 measurementUnit = a.getString(R.styleable.SeekBarPreference_msbp_measurementUnit);
-                currentValue = attrs.getAttributeIntValue("http://schemas.android.com/apk/res/android", "defaultValue", DEFAULT_CURRENT_VALUE);
-                isEnabled = attrs.getAttributeBooleanValue("http://schemas.android.com/apk/res/android", "enabled", DEFAULT_IS_ENABLED);
+                currentValue = a.getResources().getInteger(attrs.getAttributeResourceValue("http://schemas.android.com/apk/res/android", "defaultValue", DEFAULT_CURRENT_VALUE));
             }
             finally {
                 a.recycle();
