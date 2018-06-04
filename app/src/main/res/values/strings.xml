@@ -11,6 +11,7 @@
     <string name="note_of_thanks">Special thanks to my CW Academy advisor Dan and buddy Matt for not giving up on me.</string>
     <string name="signature">Best wishes to your morse study,\n\tClaus Niesen (K0TET)</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_about">About</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_morse">Morse Code</string>
