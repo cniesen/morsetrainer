@@ -1,0 +1,51 @@
+tu 5nn al|Alabama
+tu 5nn ak|Alaska
+tu 5nn az|Arizona 
+tu 5nn ar|Arkansas
+tu 5nn ca|California
+tu 5nn co|Colorado
+tu 5nn ct|Connecticut
+tu 5nn de|Delaware
+tu 5nn dc|District of Columbia
+tu 5nn fl|Florida
+tu 5nn ga|Georgia
+tu 5nn hi|Hawaii
+tu 5nn id|Idaho
+tu 5nn il|Illinois
+tu 5nn in|Indiana
+tu 5nn ia|Iowa
+tu 5nn ks|Kansas
+tu 5nn ky|Kentucky
+tu 5nn la|Louisiana
+tu 5nn me|Maine
+tu 5nn md|Maryland
+tu 5nn ma|Massachusetts
+tu 5nn mi|Michigan
+tu 5nn mn|Minnesota
+tu 5nn ms|Mississippi
+tu 5nn mo|Missouri
+tu 5nn mt|Montana
+tu 5nn ne|Nebraska
+tu 5nn nv|Nevada
+tu 5nn nh|New Hampshire
+tu 5nn nj|New Jersey
+tu 5nn nm|New Mexico
+tu 5nn ny|New York
+tu 5nn nc|North Carolina
+tu 5nn nd|North Dakota
+tu 5nn oh|Ohio
+tu 5nn ok|Oklahoma
+tu 5nn or|Oregon
+tu 5nn pa|Pennsylvania
+tu 5nn ri|Rhode Island
+tu 5nn sc|South Carolina
+tu 5nn sd|South Dakota
+tu 5nn tn|Tennessee
+tu 5nn tx|Texas
+tu 5nn ut|Utah
+tu 5nn vt|Vermont
+tu 5nn va|Virginia
+tu 5nn wa|Washington
+tu 5nn wv|West Virginia
+tu 5nn wi|Wisconsin
+tu 5nn wy|Wyoming
