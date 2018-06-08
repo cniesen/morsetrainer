@@ -1,0 +1,13 @@
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <header
+        android:fragment="com.niesens.morsetrainer.SettingsActivity$MorsePreferenceFragment"
+        android:icon="@drawable/ic_morse_key"
+        android:title="@string/pref_morse" />
+
+    <header
+        android:fragment="com.niesens.morsetrainer.SettingsActivity$AnswerPreferenceFragment"
+        android:icon="@drawable/ic_answer"
+        android:title="@string/pref_answer" />
+
+</preference-headers>

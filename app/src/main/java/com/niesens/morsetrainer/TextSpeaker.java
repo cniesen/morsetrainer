@@ -13,9 +13,15 @@ public class TextSpeaker  {
     private HashMap<String, String> textToSpeechParams;
     private Activity activity;
     private Object trainer;
+    private int beforeAnswerDelay;
+    private int afterAnswerDelay;
+    private boolean showToast;
 
-    TextSpeaker(Activity activity) {
+    TextSpeaker(Activity activity, int beforeAnswerDelay, int afterAnswerDelay, boolean showToast) {
         this.activity = activity;
+        this.beforeAnswerDelay = beforeAnswerDelay;
+        this.afterAnswerDelay = afterAnswerDelay;
+        this.showToast = showToast;
         textToSpeech = new TextToSpeech(activity, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -30,14 +36,21 @@ public class TextSpeaker  {
     }
 
     public void speak(final String text, final Object trainer) {
-        this.trainer = trainer;
-        activity.runOnUiThread(new Runnable() {
-            public void run() {
-                Toast.makeText(activity, text, Toast.LENGTH_SHORT).show();
-            }
-        });
-        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, textToSpeechParams);
+        try {
+            Thread.sleep(beforeAnswerDelay);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
+        this.trainer = trainer;
+        if (showToast) {
+            activity.runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(activity, text, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, textToSpeechParams);
     }
 
     public void stop() {
@@ -52,7 +65,7 @@ public class TextSpeaker  {
         @Override
         public void onDone(String utteranceId) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(afterAnswerDelay);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -69,5 +82,29 @@ public class TextSpeaker  {
     public void destroy() {
         textToSpeech.stop();
         textToSpeech.shutdown();
+    }
+
+    public int getBeforeAnswerDelay() {
+        return beforeAnswerDelay;
+    }
+
+    public void setBeforeAnswerDelay(int beforeAnswerDelay) {
+        this.beforeAnswerDelay = beforeAnswerDelay;
+    }
+
+    public int getAfterAnswerDelay() {
+        return afterAnswerDelay;
+    }
+
+    public void setAfterAnswerDelay(int afterAnswerDelay) {
+        this.afterAnswerDelay = afterAnswerDelay;
+    }
+
+    public boolean isShowToast() {
+        return showToast;
+    }
+
+    public void setShowToast(boolean showToast) {
+        this.showToast = showToast;
     }
 }

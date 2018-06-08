@@ -26,11 +26,6 @@ public class Trainer extends AsyncTask<Void, Void, Void> {
                 Word word = wordList.get(wordNumber);
                 morsePlayer.play(MorseTranslate.textToMorse(word.getMorseText()));
 
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    return null;
-                }
                 textSpeaker.speak(word.getSpeakText(), this);
                 try {
                     wait();

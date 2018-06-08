@@ -1,0 +1,52 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sample="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory>
+
+        <com.niesens.morsetrainer.seekbarpreference.SeekBarPreference
+            android:key="morse_wpm"
+            android:title="@string/pref_title_morse_wpm"
+            android:summary="@string/pref_description_morse_wpm"
+            android:defaultValue="@integer/default_morse_wpm"
+            sample:msbp_minValue="1"
+            sample:msbp_maxValue="100"
+            sample:msbp_interval="1"
+            sample:msbp_measurementUnit="wpm"/>
+
+        <com.niesens.morsetrainer.seekbarpreference.SeekBarPreference
+            android:key="morse_fransworth"
+            android:title="@string/pref_title_morse_fransworth"
+            android:summary="@string/pref_description_morse_fransworth"
+            android:defaultValue="@integer/default_morse_fransworth"
+            sample:msbp_minValue="1"
+            sample:msbp_maxValue="100"
+            sample:msbp_interval="1"
+            sample:msbp_measurementUnit="wpm"/>
+
+        <com.niesens.morsetrainer.seekbarpreference.SeekBarPreference
+            android:key="morse_pitch"
+            android:title="@string/pref_title_morse_pitch"
+            android:summary="@string/pref_description_morse_pitch"
+            android:defaultValue="@integer/default_morse_pitch"
+            sample:msbp_minValue="200"
+            sample:msbp_maxValue="2000"
+            sample:msbp_interval="50"
+            sample:msbp_measurementUnit="Hz"
+            android:dependency="morse_random_pitch"/>
+
+        <SwitchPreference
+            android:defaultValue="@bool/default_morse_random_pitch"
+            android:key="morse_random_pitch"
+            android:title="@string/pref_title_morse_random_pitch"
+            android:summary="@string/pref_description_morse_random_pitch"
+            android:disableDependentsState="true"/>
+
+        <com.niesens.morsetrainer.ResetMorseSettings
+            android:title="@string/pref_title_morse_reset"
+            android:summary="@string/pref_description_morse_reset"
+            android:dialogTitle="@string/pref_title_morse_reset"
+            android:dialogMessage="@string/pref_description_morse_reset"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -4,28 +4,32 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 
+import java.util.Random;
+
 public class MorsePlayer {
     private static final int SAMPLE_RATE_HZ = 48000;
 
     private int charPosition;
-    private int frequency;
     private int wpm;
     private int farnsworth;
+    private int pitch;
+    private int currentPitch;
+    private boolean randomPitch;
     private short[] ditAudioData;
     private short[] dahAudioData;
     private short[] componentBreakAudioData;
     private short[] characterBreakAudioData;
     private short[] wordBreakAudioData;
     private AudioTrack audioTrack;
+    private Random random = new Random();
 
-    MorsePlayer() {
-        this(600, 20, 20);
-    }
 
-    MorsePlayer(int frequency, int wpm, int farnsworth) {
-        this.frequency = frequency;
+    MorsePlayer(int wpm, int farnsworth,int pitch, boolean randomPitch) {
         this.wpm = wpm;
         this.farnsworth = (farnsworth > getWpm()) ? getWpm() : farnsworth;
+        this.pitch = pitch;
+        setCurrentPitch(pitch);
+        this.randomPitch = randomPitch;
         updateDitAudioData();
         updateDahAudioData();
         updateComponentBreakAudioData();
@@ -35,17 +39,6 @@ public class MorsePlayer {
         int bufferSize = AudioTrack.getMinBufferSize(SAMPLE_RATE_HZ, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT);
         audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE_HZ, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, bufferSize, AudioTrack.MODE_STREAM);
         audioTrack.setStereoVolume(AudioTrack.getMaxVolume(), AudioTrack.getMaxVolume());
-    }
-
-    public int getFrequency() {
-        return frequency;
-    }
-
-    public void setFrequency(int frequency) {
-        this.frequency = frequency;
-        updateDitAudioData();
-        updateDahAudioData();
-        updateComponentBreakAudioData();
     }
 
     public int getWpm() {
@@ -69,17 +62,45 @@ public class MorsePlayer {
         updateWordBreakAudioData();
     }
 
+    public int getPitch() {
+        return pitch;
+    }
+
+    public void setPitch(int pitch) {
+        this.pitch = pitch;
+        setCurrentPitch(pitch);
+    }
+
+    private void setCurrentPitch(int pitch) {
+        this.currentPitch = pitch;
+        updateDitAudioData();
+        updateDahAudioData();
+        updateComponentBreakAudioData();
+    }
+
+    public boolean isRandomPitch() {
+        return randomPitch;
+    }
+
+    public void setRandomPitch(boolean randomPitch) {
+        this.randomPitch = randomPitch;
+        if (!randomPitch) {
+            //reset random pitch to user setting
+            setCurrentPitch(pitch);
+        }
+    }
+
     private void updateDitAudioData() {
         ditAudioData = new short[SAMPLE_RATE_HZ * (1200 / wpm) / 1000];
         for (int i = 0; i < ditAudioData.length; i++) {
-            ditAudioData[i] = (short) (Math.sin((2.0 * Math.PI * i / (SAMPLE_RATE_HZ / frequency))) * Short.MAX_VALUE);
+            ditAudioData[i] = (short) (Math.sin((2.0 * Math.PI * i / (SAMPLE_RATE_HZ / currentPitch))) * Short.MAX_VALUE);
         }
     }
 
     private void updateDahAudioData() {
         dahAudioData = new short[SAMPLE_RATE_HZ * 3 * (1200 / wpm) / 1000];
         for (int i = 0; i < dahAudioData.length; i++) {
-            dahAudioData[i] = (short) (Math.sin((2.0 * Math.PI * i / (SAMPLE_RATE_HZ / frequency))) * Short.MAX_VALUE);
+            dahAudioData[i] = (short) (Math.sin((2.0 * Math.PI * i / (SAMPLE_RATE_HZ / currentPitch))) * Short.MAX_VALUE);
         }
     }
 
@@ -127,6 +148,11 @@ public class MorsePlayer {
     }
 
     public void play(String morseCode) {
+        if (randomPitch) {
+            // random pitch between 200 and 1200
+            setCurrentPitch((random.nextInt(20) + 5) * 50);
+        }
+
         audioTrack.play();
 
         for (charPosition = 0; charPosition < morseCode.length(); charPosition++) {
@@ -157,3 +183,4 @@ public class MorsePlayer {
         audioTrack.release();
     }
 }
+
