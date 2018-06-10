@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-        morsePlayer = new MorsePlayer(getMorseWpmPreference(sharedPreferences), getMorseFransworthPreference(sharedPreferences), getMorsePitchPreference(sharedPreferences), getMorseRandomPitchPreference(sharedPreferences));
+        morsePlayer = new MorsePlayer(getMorseWpmPreference(sharedPreferences), getMorseFarnsworthPreference(sharedPreferences), getMorsePitchPreference(sharedPreferences), getMorseRandomPitchPreference(sharedPreferences));
         textSpeaker = new TextSpeaker(this, getDelayBeforeAnswerPreference(sharedPreferences), getDelayAfterAnswerPreference(sharedPreferences), getAnswerToastPreference(sharedPreferences));
 
         boolean hasPermission = (ContextCompat.checkSelfPermission(this,
@@ -255,8 +255,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             case "morse_wpm" :
                 morsePlayer.setWpm(getMorseWpmPreference(sharedPreferences));
                 break;
-            case "morse_fransworth" :
-                morsePlayer.setFarnsworth(getMorseFransworthPreference(sharedPreferences));
+            case "morse_farnsworth" :
+                morsePlayer.setFarnsworth(getMorseFarnsworthPreference(sharedPreferences));
                 break;
             case "morse_pitch" :
                 morsePlayer.setPitch(getMorsePitchPreference(sharedPreferences));
@@ -281,8 +281,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         return sharedPreferences.getInt("morse_wpm", getResources().getInteger(R.integer.default_morse_wpm));
     }
 
-    private int getMorseFransworthPreference(SharedPreferences sharedPreferences) {
-        return sharedPreferences.getInt("morse_fransworth", getResources().getInteger(R.integer.default_morse_fransworth));
+    private int getMorseFarnsworthPreference(SharedPreferences sharedPreferences) {
+        return sharedPreferences.getInt("morse_farnsworth", getResources().getInteger(R.integer.default_morse_farnsworth));
     }
 
     private int getMorsePitchPreference(SharedPreferences sharedPreferences) {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="default_morse_wpm">20</integer>
-    <integer name="default_morse_fransworth">20</integer>
+    <integer name="default_morse_farnsworth">20</integer>
     <integer name="default_morse_pitch">600</integer>
     <bool name="default_morse_random_pitch">false</bool>
     <integer name="default_delay_before_answer">1500</integer>

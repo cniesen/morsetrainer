@@ -173,8 +173,8 @@ public class SettingsActivity extends AppPreferenceActivity {
                 case "morse_wpm" :
                     ((SeekBarPreference) preference).setCurrentValue(getMorseWpmPreference(sharedPreferences));
                     break;
-                case "morse_fransworth" :
-                    ((SeekBarPreference) preference).setCurrentValue(getMorseFransworthPreference(sharedPreferences));
+                case "morse_farnsworth" :
+                    ((SeekBarPreference) preference).setCurrentValue(getMorseFarnsworthPreference(sharedPreferences));
                     break;
                 case "morse_pitch" :
                     ((SeekBarPreference) preference).setCurrentValue(getMorsePitchPreference(sharedPreferences));
@@ -203,8 +203,8 @@ public class SettingsActivity extends AppPreferenceActivity {
             return sharedPreferences.getInt("morse_wpm", getResources().getInteger(R.integer.default_morse_wpm));
         }
 
-        private int getMorseFransworthPreference(SharedPreferences sharedPreferences) {
-            return sharedPreferences.getInt("morse_fransworth", getResources().getInteger(R.integer.default_morse_fransworth));
+        private int getMorseFarnsworthPreference(SharedPreferences sharedPreferences) {
+            return sharedPreferences.getInt("morse_farnsworth", getResources().getInteger(R.integer.default_morse_farnsworth));
         }
 
         private int getMorsePitchPreference(SharedPreferences sharedPreferences) {

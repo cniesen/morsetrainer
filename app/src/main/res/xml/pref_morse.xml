@@ -14,10 +14,10 @@
             sample:msbp_measurementUnit="wpm"/>
 
         <com.niesens.morsetrainer.seekbarpreference.SeekBarPreference
-            android:key="morse_fransworth"
-            android:title="@string/pref_title_morse_fransworth"
-            android:summary="@string/pref_description_morse_fransworth"
-            android:defaultValue="@integer/default_morse_fransworth"
+            android:key="morse_farnsworth"
+            android:title="@string/pref_title_morse_farnsworth"
+            android:summary="@string/pref_description_morse_farnsworth"
+            android:defaultValue="@integer/default_morse_farnsworth"
             sample:msbp_minValue="1"
             sample:msbp_maxValue="100"
             sample:msbp_interval="1"

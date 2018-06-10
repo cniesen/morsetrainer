@@ -17,7 +17,7 @@ public class ResetMorseSettings extends DialogPreference {
         if (positiveResult) {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
             sharedPreferences.edit().putInt("morse_wpm", getContext().getResources().getInteger(R.integer.default_morse_wpm)).apply();
-            sharedPreferences.edit().putInt("morse_fransworth", getContext().getResources().getInteger(R.integer.default_morse_fransworth)).apply();
+            sharedPreferences.edit().putInt("morse_farnsworth", getContext().getResources().getInteger(R.integer.default_morse_farnsworth)).apply();
             sharedPreferences.edit().putInt("morse_pitch", getContext().getResources().getInteger(R.integer.default_morse_pitch)).apply();
             sharedPreferences.edit().putBoolean("morse_random_pitch", getContext().getResources().getBoolean(R.bool.default_morse_random_pitch)).apply();
         }
