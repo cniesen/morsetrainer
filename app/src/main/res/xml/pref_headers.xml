@@ -10,4 +10,9 @@
         android:icon="@drawable/ic_answer"
         android:title="@string/pref_answer" />
 
+    <header
+        android:fragment="com.niesens.morsetrainer.SettingsActivity$UiPreferenceFragment"
+        android:icon="@drawable/ic_ui"
+        android:title="@string/pref_ui" />
+
 </preference-headers>

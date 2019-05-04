@@ -4,12 +4,14 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -46,9 +48,20 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        switch (getUiNightModePreference(sharedPreferences)) {
+            case "Yes":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            case "No" :
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            default :
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+        }
         super.onCreate(savedInstanceState);
 
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
         morsePlayer = new MorsePlayer(getMorseWpmPreference(sharedPreferences), getMorseFarnsworthPreference(sharedPreferences), getMorsePitchPreference(sharedPreferences), getMorseRandomPitchPreference(sharedPreferences));
         textSpeaker = new TextSpeaker(this, getDelayBeforeAnswerPreference(sharedPreferences), getDelayAfterAnswerPreference(sharedPreferences), getAnswerToastPreference(sharedPreferences));
@@ -324,5 +337,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     private int getWordTrainTimesPreference(SharedPreferences sharedPreferences) {
         return sharedPreferences.getInt("word_train_times", 1);
+    }
+
+    private String getUiNightModePreference(SharedPreferences sharedPreferences) {
+        return sharedPreferences.getString("ui_night_mode", getResources().getString(R.string.default_ui_night_mode));
     }
 }

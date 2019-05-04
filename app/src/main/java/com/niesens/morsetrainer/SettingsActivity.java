@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
@@ -14,6 +15,7 @@ import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.MenuItem;
 
 import com.niesens.morsetrainer.seekbarpreference.SeekBarPreference;
@@ -140,7 +142,8 @@ public class SettingsActivity extends AppPreferenceActivity {
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || MorsePreferenceFragment.class.getName().equals(fragmentName)
-                || AnswerPreferenceFragment.class.getName().equals(fragmentName);
+                || AnswerPreferenceFragment.class.getName().equals(fragmentName)
+                || UiPreferenceFragment.class.getName().equals(fragmentName);
     }
 
     /**
@@ -280,6 +283,69 @@ public class SettingsActivity extends AppPreferenceActivity {
 
         private boolean getAnswerToastPreference(SharedPreferences sharedPreferences) {
             return sharedPreferences.getBoolean("answer_toast", getResources().getBoolean(R.bool.default_answer_toast));
+        }
+    }
+
+    /**
+     * This fragment shows UI preferences only. It is used when the
+     * activity is showing a two-pane settings UI.
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class UiPreferenceFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_ui);
+            setHasOptionsMenu(true);
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id = item.getItemId();
+            if (id == android.R.id.home) {
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
+
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            Preference preference = findPreference(key);
+            switch (key) {
+                case "ui_night_mode" :
+                    ((ListPreference) preference).setValue(getUiNightModePreference(sharedPreferences));
+                    switch (getUiNightModePreference(sharedPreferences)) {
+                        case "Yes":
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                            break;
+                        case "No" :
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                            break;
+                        default :
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                            break;
+                    }
+                    break;
+            }
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            getPreferenceScreen().getSharedPreferences()
+                    .registerOnSharedPreferenceChangeListener(this);
+        }
+
+        @Override
+        public void onPause() {
+            super.onPause();
+            getPreferenceScreen().getSharedPreferences()
+                    .unregisterOnSharedPreferenceChangeListener(this);
+        }
+
+        private String getUiNightModePreference(SharedPreferences sharedPreferences) {
+            return sharedPreferences.getString("ui_night_mode", getResources().getString(R.string.default_ui_night_mode));
         }
     }
 
