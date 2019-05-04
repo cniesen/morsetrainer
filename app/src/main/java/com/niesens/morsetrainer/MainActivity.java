@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.niesens.morsetrainer.filepicker.FilePickerActivity;
@@ -37,17 +38,17 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     Button button_startStop;
     Button button_trainingFile;
+    NumberPicker numberPicker_wordTrainTimes;
     private MorsePlayer morsePlayer;
     private TextSpeaker textSpeaker;
     private List<Word> wordList;
     Trainer trainer;
-    int i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
         morsePlayer = new MorsePlayer(getMorseWpmPreference(sharedPreferences), getMorseFarnsworthPreference(sharedPreferences), getMorsePitchPreference(sharedPreferences), getMorseRandomPitchPreference(sharedPreferences));
         textSpeaker = new TextSpeaker(this, getDelayBeforeAnswerPreference(sharedPreferences), getDelayAfterAnswerPreference(sharedPreferences), getAnswerToastPreference(sharedPreferences));
@@ -84,6 +85,17 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             }
         });
 
+        numberPicker_wordTrainTimes = findViewById(R.id.wordTrainTimes);
+        numberPicker_wordTrainTimes.setMinValue(1);
+        numberPicker_wordTrainTimes.setMaxValue(10);
+        numberPicker_wordTrainTimes.setValue(getWordTrainTimesPreference(sharedPreferences));
+        numberPicker_wordTrainTimes.setWrapSelectorWheel(false);
+        numberPicker_wordTrainTimes.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                sharedPreferences.edit().putInt("word_train_times", newVal).apply();
+            }
+        });
     }
 
     private void startTrainer() {
@@ -91,7 +103,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             return;
         }
         button_startStop.setText(R.string.trainingStopText);
-        trainer = new Trainer(morsePlayer, textSpeaker, wordList);
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        trainer = new Trainer(morsePlayer, textSpeaker, wordList, getWordTrainTimesPreference(sharedPreferences));
         trainer.execute();
     }
 
@@ -273,6 +286,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             case "answer_toast" :
                 textSpeaker.setShowToast(getAnswerToastPreference(sharedPreferences));
                 break;
+            case "word_train_times" :
+                if(trainer != null) {
+                    trainer.setWordTrainTimes(getWordTrainTimesPreference(sharedPreferences));
+                }
         }
 
     }
@@ -303,5 +320,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     private boolean getAnswerToastPreference(SharedPreferences sharedPreferences) {
         return sharedPreferences.getBoolean("answer_toast", getResources().getBoolean(R.bool.default_answer_toast));
+    }
+
+    private int getWordTrainTimesPreference(SharedPreferences sharedPreferences) {
+        return sharedPreferences.getInt("word_train_times", 1);
     }
 }
