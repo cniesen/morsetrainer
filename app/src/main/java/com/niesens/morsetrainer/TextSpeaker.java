@@ -39,7 +39,8 @@ public class TextSpeaker  {
         try {
             Thread.sleep(beforeAnswerDelay);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
+            return;
         }
 
         this.trainer = trainer;
