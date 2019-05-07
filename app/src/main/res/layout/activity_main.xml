@@ -4,54 +4,85 @@
     android:layout_height="match_parent"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:gravity="center_horizontal"
     android:orientation="vertical" >
 
     <Button
         android:id="@+id/trainingFile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15sp"
-        android:layout_marginBottom="15sp"
-        android:text="choose practice file" />
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_gravity="center"
+        android:text="@string/choose_practice_file" />
 
     <Button
         android:id="@+id/startStop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15sp"
-        android:layout_marginBottom="15sp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_gravity="center"
         android:enabled="false"
         android:text="@string/trainingStartText" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="80dp">
-
+        android:layout_marginTop="20dp">
         <TextView
-            android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical|right"
-            android:textSize="20sp"
-            android:text="Repeat " />
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/wordTrainTimes"
+            android:layout_toLeftOf="@+id/wordTrainTimes"
+            android:layout_centerVertical="true"
+            android:text="@string/repeat"
+            android:textSize="20sp" />
 
         <NumberPicker
             android:id="@+id/wordTrainTimes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-             />
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/wordTrainTimes"
+            android:layout_toRightOf="@+id/wordTrainTimes"
+            android:layout_centerVertical="true"
+            android:text="@string/times"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp" >
 
         <TextView
-            android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical|left"
-            android:textSize="20sp"
-            android:text=" times" />
-
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/speakFirst"
+            android:layout_toLeftOf="@+id/speakFirst"
+            android:text="@string/audio_hint"
+            android:textSize="20sp" />
+        <ToggleButton
+            android:id="@+id/speakFirst"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textOff="@string/after"
+            android:textOn="@string/before" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/speakFirst"
+            android:layout_toRightOf="@+id/speakFirst"
+            android:layout_centerVertical="true"
+            android:text="@string/morse_code"
+            android:textSize="20sp" />
+    </RelativeLayout>
 
 </LinearLayout>
