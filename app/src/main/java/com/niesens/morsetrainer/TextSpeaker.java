@@ -13,14 +13,14 @@ public class TextSpeaker  {
     private HashMap<String, String> textToSpeechParams;
     private Activity activity;
     private Object trainer;
-    private int beforeAnswerDelay;
-    private int afterAnswerDelay;
+    private int beforeSpeakDelay;
+    private int afterSpeakDelay;
     private boolean showToast;
 
-    TextSpeaker(Activity activity, int beforeAnswerDelay, int afterAnswerDelay, boolean showToast) {
+    TextSpeaker(Activity activity, int beforeSpeakDelay, int afterSpeakDelay, boolean showToast) {
         this.activity = activity;
-        this.beforeAnswerDelay = beforeAnswerDelay;
-        this.afterAnswerDelay = afterAnswerDelay;
+        this.beforeSpeakDelay = beforeSpeakDelay;
+        this.afterSpeakDelay = afterSpeakDelay;
         this.showToast = showToast;
         textToSpeech = new TextToSpeech(activity, new TextToSpeech.OnInitListener() {
             @Override
@@ -37,9 +37,10 @@ public class TextSpeaker  {
 
     public void speak(final String text, final Object trainer) {
         try {
-            Thread.sleep(beforeAnswerDelay);
+            Thread.sleep(beforeSpeakDelay);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
+            return;
         }
 
         this.trainer = trainer;
@@ -65,7 +66,7 @@ public class TextSpeaker  {
         @Override
         public void onDone(String utteranceId) {
             try {
-                Thread.sleep(afterAnswerDelay);
+                Thread.sleep(afterSpeakDelay);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -84,20 +85,20 @@ public class TextSpeaker  {
         textToSpeech.shutdown();
     }
 
-    public int getBeforeAnswerDelay() {
-        return beforeAnswerDelay;
+    public int getBeforeSpeakDelay() {
+        return beforeSpeakDelay;
     }
 
-    public void setBeforeAnswerDelay(int beforeAnswerDelay) {
-        this.beforeAnswerDelay = beforeAnswerDelay;
+    public void setBeforeSpeakDelay(int beforeSpeakDelay) {
+        this.beforeSpeakDelay = beforeSpeakDelay;
     }
 
-    public int getAfterAnswerDelay() {
-        return afterAnswerDelay;
+    public int getAfterSpeakDelay() {
+        return afterSpeakDelay;
     }
 
-    public void setAfterAnswerDelay(int afterAnswerDelay) {
-        this.afterAnswerDelay = afterAnswerDelay;
+    public void setAfterSpeakDelay(int afterSpeakDelay) {
+        this.afterSpeakDelay = afterSpeakDelay;
     }
 
     public boolean isShowToast() {

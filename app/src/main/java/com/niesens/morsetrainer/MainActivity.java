@@ -17,8 +17,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.NumberPicker;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.niesens.morsetrainer.filepicker.FilePickerActivity;
 
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     Button button_startStop;
     Button button_trainingFile;
     NumberPicker numberPicker_wordTrainTimes;
+    ToggleButton toggleButton_speakFirst;
     private MorsePlayer morsePlayer;
     private TextSpeaker textSpeaker;
     private List<Word> wordList;
@@ -64,7 +67,11 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
         morsePlayer = new MorsePlayer(getMorseWpmPreference(sharedPreferences), getMorseFarnsworthPreference(sharedPreferences), getMorsePitchPreference(sharedPreferences), getMorseRandomPitchPreference(sharedPreferences));
-        textSpeaker = new TextSpeaker(this, getDelayBeforeAnswerPreference(sharedPreferences), getDelayAfterAnswerPreference(sharedPreferences), getAnswerToastPreference(sharedPreferences));
+        if (getSpeakFirstPreference(sharedPreferences)) {
+            textSpeaker = new TextSpeaker(this, getDelayAfterAnswerPreference(sharedPreferences), getDelayBeforeAnswerPreference(sharedPreferences), getAnswerToastPreference(sharedPreferences));
+        } else {
+            textSpeaker = new TextSpeaker(this, getDelayBeforeAnswerPreference(sharedPreferences), getDelayAfterAnswerPreference(sharedPreferences), getAnswerToastPreference(sharedPreferences));
+        }
 
         boolean hasPermission = (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
@@ -109,7 +116,16 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 sharedPreferences.edit().putInt("word_train_times", newVal).apply();
             }
         });
-    }
+
+        toggleButton_speakFirst = findViewById(R.id.speakFirst);
+        toggleButton_speakFirst.setChecked(getSpeakFirstPreference(sharedPreferences));
+        toggleButton_speakFirst.setOnCheckedChangeListener(new ToggleButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                sharedPreferences.edit().putBoolean("speak_first", isChecked).apply();
+            }
+        });
+   }
 
     private void startTrainer() {
         if (wordList == null || wordList.isEmpty()) {
@@ -117,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
         button_startStop.setText(R.string.trainingStopText);
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        trainer = new Trainer(morsePlayer, textSpeaker, wordList, getWordTrainTimesPreference(sharedPreferences));
+        trainer = new Trainer(morsePlayer, textSpeaker, wordList, getWordTrainTimesPreference(sharedPreferences), toggleButton_speakFirst.isChecked());
         trainer.execute();
     }
 
@@ -291,18 +307,40 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 morsePlayer.setRandomPitch(getMorseRandomPitchPreference(sharedPreferences));
                 break;
             case "delay_before_answer" :
-                textSpeaker.setBeforeAnswerDelay(getDelayBeforeAnswerPreference(sharedPreferences));
+                if (getSpeakFirstPreference(sharedPreferences)) {
+                    textSpeaker.setAfterSpeakDelay(getDelayBeforeAnswerPreference(sharedPreferences));
+                } else {
+                    textSpeaker.setBeforeSpeakDelay(getDelayBeforeAnswerPreference(sharedPreferences));
+                }
                 break;
             case "delay_after_answer" :
-                textSpeaker.setAfterAnswerDelay(getDelayAfterAnswerPreference(sharedPreferences));
+                if (getSpeakFirstPreference(sharedPreferences)) {
+                    textSpeaker.setBeforeSpeakDelay(getDelayAfterAnswerPreference(sharedPreferences));
+                } else {
+                    textSpeaker.setAfterSpeakDelay(getDelayAfterAnswerPreference(sharedPreferences));
+                }
                 break;
             case "answer_toast" :
                 textSpeaker.setShowToast(getAnswerToastPreference(sharedPreferences));
                 break;
             case "word_train_times" :
-                if(trainer != null) {
+                if (trainer != null) {
                     trainer.setWordTrainTimes(getWordTrainTimesPreference(sharedPreferences));
                 }
+                break;
+            case "speak_first" :
+                if (trainer != null) {
+                    trainer.setSpeakFirst(getSpeakFirstPreference(sharedPreferences));
+                }
+                if (getSpeakFirstPreference(sharedPreferences)) {
+                    textSpeaker.setAfterSpeakDelay(getDelayBeforeAnswerPreference(sharedPreferences));
+                    textSpeaker.setBeforeSpeakDelay(getDelayAfterAnswerPreference(sharedPreferences));
+                } else {
+                    textSpeaker.setBeforeSpeakDelay(getDelayBeforeAnswerPreference(sharedPreferences));
+                    textSpeaker.setAfterSpeakDelay(getDelayAfterAnswerPreference(sharedPreferences));
+                }
+                break;
+
         }
 
     }
@@ -335,11 +373,15 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         return sharedPreferences.getBoolean("answer_toast", getResources().getBoolean(R.bool.default_answer_toast));
     }
 
+    private String getUiNightModePreference(SharedPreferences sharedPreferences) {
+        return sharedPreferences.getString("ui_night_mode", getResources().getString(R.string.default_ui_night_mode));
+    }
+
     private int getWordTrainTimesPreference(SharedPreferences sharedPreferences) {
         return sharedPreferences.getInt("word_train_times", 1);
     }
 
-    private String getUiNightModePreference(SharedPreferences sharedPreferences) {
-        return sharedPreferences.getString("ui_night_mode", getResources().getString(R.string.default_ui_night_mode));
+    private boolean getSpeakFirstPreference(SharedPreferences sharedPreferences) {
+        return sharedPreferences.getBoolean("speak_first", false);
     }
 }

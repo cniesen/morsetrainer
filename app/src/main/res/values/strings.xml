@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Claus\' Morse Trainer</string>
+
+    <!-- Strings related to main activity -->
+    <string name="choose_practice_file">choose practice file</string>
     <string name="trainingStartText">Start</string>
     <string name="trainingStopText">Stop</string>
-    <string name="home_page_url">https://k0tet.github.io/</string>
-    <string name="support_page_url">https://github.com/k0tet/morsetrainer</string>
+    <string name="repeat">Repeat</string>
+    <string name="times">times</string>
+    <string name="audio_hint">Audio hint</string>
+    <string name="after">after</string>
+    <string name="before">before</string>
+    <string name="morse_code">morse code</string>
+
+    <!-- Strings related to about activity -->
+    <string name="about_version_label">Version</string>
+    <string name="about_version_dummy_value">0.00</string>
     <string name="app_description">A little program to assist me in learning morse code.</string>
     <string name="help_create_word_list">To create your own word list create a new text file with the \".txt\" suffix in the \"Claus\' Morse Trainer\" directory of the internal storage. Each line should be a character, word or phrase that you want to learn. If the spoken words differ from the morse text then separate the morse text with a vertical pipe \"|\" from the spoken text (e.g. \"fb|fine business\").</string>
     <string name="support">To report issues, get support or view the source code please visit the following link.</string>
+    <string name="support_page_url">https://github.com/k0tet/morsetrainer</string>
     <string name="note_of_thanks">Special thanks to my CW Academy advisor Dan and buddy Matt for not giving up on me.</string>
     <string name="signature">Best wishes to your morse study,\n\tClaus Niesen (K0TET)</string>
+    <string name="home_page_url">https://k0tet.github.io/</string>
+
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_about">About</string>
 
