@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="ui_night_mode_options">
-        <item>System</item>
         <item>Yes</item>
         <item>No</item>
     </string-array>

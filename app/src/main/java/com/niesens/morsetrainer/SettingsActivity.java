@@ -312,21 +312,13 @@ public class SettingsActivity extends AppPreferenceActivity {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             Preference preference = findPreference(key);
-            switch (key) {
-                case "ui_night_mode" :
-                    ((ListPreference) preference).setValue(getUiNightModePreference(sharedPreferences));
-                    switch (getUiNightModePreference(sharedPreferences)) {
-                        case "Yes":
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                            break;
-                        case "No" :
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                            break;
-                        default :
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-                            break;
-                    }
-                    break;
+            if ("ui_night_mode".equals(key)) {
+                ((ListPreference) preference).setValue(getUiNightModePreference(sharedPreferences));
+                if ("Yes".equals(getUiNightModePreference(sharedPreferences))) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
             }
         }
 

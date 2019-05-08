@@ -7,5 +7,5 @@
     <integer name="default_delay_before_answer">1500</integer>
     <integer name="default_delay_after_answer">1000</integer>
     <bool name="default_answer_toast">true</bool>
-    <string name="default_ui_night_mode">System</string>
+    <string name="default_ui_night_mode">No</string>
 </resources>
