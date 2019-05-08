@@ -1,0 +1,23 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sample="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory>
+
+        <ListPreference
+            android:defaultValue="@string/default_ui_night_mode"
+            android:entries="@array/ui_night_mode_options"
+            android:entryValues="@array/ui_night_mode_options"
+            android:key="ui_night_mode"
+            android:title="@string/pref_title_ui_night_mode"
+            android:summary="@string/pref_description_ui_night_mode"
+            android:disableDependentsState="true"/>
+
+        <com.niesens.morsetrainer.ResetUiSettings
+            android:title="@string/pref_title_ui_reset"
+            android:summary="@string/pref_description_ui_reset"
+            android:dialogTitle="@string/pref_title_ui_reset"
+            android:dialogMessage="@string/pref_description_ui_reset"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

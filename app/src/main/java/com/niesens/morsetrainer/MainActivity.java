@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -49,9 +50,14 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if ("Yes".equals(getUiNightModePreference(sharedPreferences))) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
         super.onCreate(savedInstanceState);
 
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
         morsePlayer = new MorsePlayer(getMorseWpmPreference(sharedPreferences), getMorseFarnsworthPreference(sharedPreferences), getMorsePitchPreference(sharedPreferences), getMorseRandomPitchPreference(sharedPreferences));
         if (getSpeakFirstPreference(sharedPreferences)) {
@@ -358,6 +364,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     private boolean getAnswerToastPreference(SharedPreferences sharedPreferences) {
         return sharedPreferences.getBoolean("answer_toast", getResources().getBoolean(R.bool.default_answer_toast));
+    }
+
+    private String getUiNightModePreference(SharedPreferences sharedPreferences) {
+        return sharedPreferences.getString("ui_night_mode", getResources().getString(R.string.default_ui_night_mode));
     }
 
     private int getWordTrainTimesPreference(SharedPreferences sharedPreferences) {

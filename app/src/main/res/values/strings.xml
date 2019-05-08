@@ -59,4 +59,12 @@
     <string name="pref_title_answer_reset">Reset Preferences</string>
     <string name="pref_description_answer_reset">Reset answer preferences to default values.</string>
 
+    <string name="pref_ui">User Interface</string>
+
+    <string name="pref_title_ui_night_mode">Dark Theme</string>
+    <string name="pref_description_ui_night_mode">Enable dark theme. The new theme is used next time (i.e. app restart is required).</string>
+
+    <string name="pref_title_ui_reset">Reset Preferences</string>
+    <string name="pref_description_ui_reset">Reset ui preferences to default values.</string>
+
 </resources>
