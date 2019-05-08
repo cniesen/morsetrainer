@@ -26,6 +26,7 @@ public class FilePickerActivity extends FragmentActivity {
         String externalStoragePath = Environment.getExternalStorageDirectory() + "/" + getString(R.string.app_name);
         File wordListDirectory = new File(externalStoragePath);
         File[] wordListFiles = wordListDirectory.listFiles(new WordListFileFilter());
+        Arrays.sort(wordListFiles);
         RecyclerView.Adapter mAdapter = new FilePickerAdapter(Arrays.asList(wordListFiles));
         recyclerView.setAdapter(mAdapter);
     }
