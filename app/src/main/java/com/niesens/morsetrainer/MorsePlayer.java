@@ -102,7 +102,6 @@ public class MorsePlayer {
         this.currentPitch = pitch;
         updateDitSound();
         updateDahSound();
-        updateIntraCharSpace();
     }
 
     public boolean isRandomPitch() {
