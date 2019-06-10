@@ -1,0 +1,14 @@
+* General [0/1]
+- [ ] Add ability to play multiple words before giving answer
+- [ ] Remember last word file choice
+- [ ] Add ability to use Dropbox or other cloud file browser for custom word lists
+- [ ] Don't allow same word to be chosen in succession when repeat value > 1
+
+* GUI Changes [0/2]
+- [ ] Change wpm slider to something more reasonable.  100 is too high.
+- [ ] Fix 'back' button in settings
+
+* Morse generation [0/1]
+- [ ] Ensure dot and dash timing is good
+- [ ] Check farnsworth control - can we simplify?
+- [ ] Is random pitch right?
