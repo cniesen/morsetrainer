@@ -1,9 +1,12 @@
 package com.niesens.morsetrainer;
+import android.util.Log;
 
 public class SimpleTone extends Sound {
     private final int NUM_TAPER_CYCLES = 4;
     protected final int numToneCycles;
     protected final double samplesPerToneCycle;
+    protected final int rampLen;
+    protected final int releaseStartSample;
 
     public SimpleTone(int freqHz, int durationInMs, int _sampleRate) {
         super(durationInMs, _sampleRate);
@@ -15,10 +18,8 @@ public class SimpleTone extends Sound {
         // How does cycle of tone we're generating fit into samples buffer?
         samplesPerToneCycle = (double) this.sampleRate / (double) freqHz;
         numToneCycles = numSamples / (int) samplesPerToneCycle;
-
-        if (numToneCycles < (NUM_TAPER_CYCLES * 2)) {
-            throw new IllegalStateException("Too few cycles at current sample rate");
-        }
+        rampLen = (NUM_TAPER_CYCLES * (int) samplesPerToneCycle);
+        releaseStartSample = numSamples - rampLen;
 
         if (samplesPerToneCycle < 2) {
             throw new IllegalArgumentException("Increase sample rate or lower frequency");
@@ -40,17 +41,15 @@ public class SimpleTone extends Sound {
         this(freqHz, durationInMs, defaultSampleRate);
     }
 
-
     // Ramp amplitude of first and last few complete cycles up and down to
     // create a more pleasant sound; "attack" and "release".
     protected double shapeAmplitude(int sampleNum, double input) {
         double output;
-        int cycleNum = getCycleNum(sampleNum);
 
-        if (isAttackCycle(cycleNum)) {
-            output = input * getAttackGain(cycleNum);
-        } else if (isReleaseCycle(cycleNum)) {
-            output = input * getReleaseGain(cycleNum);
+        if (isAttackCycle(sampleNum)) {
+            output = input * getAttackGain(sampleNum);
+        } else if (isReleaseCycle(sampleNum)) {
+            output = input * getReleaseGain(sampleNum);
         } else {
             output = input;
         }
@@ -58,37 +57,29 @@ public class SimpleTone extends Sound {
         return output;
     }
 
-    protected boolean isAttackCycle(int cycleNum) {
-        return (cycleNum < NUM_TAPER_CYCLES);
+    protected boolean isAttackCycle(int sampleNum) {
+        return (sampleNum < rampLen);
     }
 
-    protected boolean isReleaseCycle(int cycleNum) {
-        int releaseStartCycle = numToneCycles - NUM_TAPER_CYCLES;
-        return (releaseStartCycle <= cycleNum);
+    protected boolean isReleaseCycle(int sampleNum) {
+        return (releaseStartSample <= sampleNum);
     }
 
-    protected double getAttackGain(int cycleNum) {
-        int rampPosition = cycleNum + 1;
-        int rampLen = NUM_TAPER_CYCLES + 1;
+    protected double getAttackGain(int sampleNum) {
+        int rampPosition = sampleNum;
 
-        if (rampPosition < 0) rampPosition = 1;
+        if (rampPosition < 0) rampPosition = 0;
         if (rampPosition > rampLen) rampPosition = rampLen;
-        double gain = (double) rampPosition / (double) rampLen;
+        double gain = (double) sampleNum / (double) rampLen;
         return gain;
     }
 
-    protected double getReleaseGain(int cycleNum) {
-        int rampPosition = numToneCycles - cycleNum;
-        int rampLen = NUM_TAPER_CYCLES + 1;
+    protected double getReleaseGain(int sampleNum) {
+        int rampPosition = numSamples - sampleNum;
 
-        if (rampPosition < 0) rampPosition = 1;
+        if (rampPosition < 0) rampPosition = 0;
         if (rampPosition > rampLen) rampPosition = rampLen;
         double gain = (double) rampPosition / (double) rampLen;
         return gain;
-    }
-
-    // Cycle of the tone we're generating
-    protected int getCycleNum(int sampleNum) {
-        return sampleNum / (int) samplesPerToneCycle;
     }
 }
