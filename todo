@@ -12,3 +12,5 @@
 - [ ] Ensure dot and dash timing is good
 - [ ] Check farnsworth control - can we simplify?
 - [ ] Is random pitch right?
+- [ ] Make sure last character is always being played
+- [ ] Ensure last part of SimpleTone is clear - end on 0
