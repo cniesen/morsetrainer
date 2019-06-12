@@ -3,7 +3,7 @@ import android.util.Log;
 
 public class SimpleTone extends Sound {
     private final int NUM_TAPER_CYCLES = 4;
-    protected final double samplesPerCycle;
+    protected final int samplesPerCycle;
     protected final int rampLen;
     protected final int releaseStartSample;
 
@@ -15,17 +15,18 @@ public class SimpleTone extends Sound {
         }
 
         // How does cycle of tone we're generating fit into samples buffer?
-        samplesPerCycle = (double) this.sampleRate / (double) freqHz;
-        rampLen = (NUM_TAPER_CYCLES * (int) samplesPerCycle);
-        releaseStartSample = numSamples - rampLen;
-
+        samplesPerCycle = this.sampleRate / freqHz;
         if (samplesPerCycle < 2) {
             throw new IllegalArgumentException("Increase sample rate or lower frequency");
         }
 
+        // Calculate attack and release params
+        rampLen = (NUM_TAPER_CYCLES * samplesPerCycle);
+        releaseStartSample = numSamples - rampLen;
+
         // Generate waveform
         for (int sampleNum = 0; sampleNum < this.numSamples; sampleNum++) {
-            double angle = (2 * Math.PI) * ((double) sampleNum / samplesPerCycle);
+            double angle = (2 * Math.PI) * ((double) sampleNum / (double) samplesPerCycle);
             double level = Math.sin(angle) * Short.MAX_VALUE;
             short sample;
 
