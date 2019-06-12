@@ -3,7 +3,6 @@ import android.util.Log;
 
 public class SimpleTone extends Sound {
     private final int NUM_TAPER_CYCLES = 4;
-    protected final int numToneCycles;
     protected final double samplesPerToneCycle;
     protected final int rampLen;
     protected final int releaseStartSample;
@@ -17,7 +16,6 @@ public class SimpleTone extends Sound {
 
         // How does cycle of tone we're generating fit into samples buffer?
         samplesPerToneCycle = (double) this.sampleRate / (double) freqHz;
-        numToneCycles = numSamples / (int) samplesPerToneCycle;
         rampLen = (NUM_TAPER_CYCLES * (int) samplesPerToneCycle);
         releaseStartSample = numSamples - rampLen;
 
