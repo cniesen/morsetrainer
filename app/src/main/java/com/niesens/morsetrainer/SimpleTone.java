@@ -18,19 +18,18 @@
  */
 
 package com.niesens.morsetrainer;
-import android.util.Log;
 
 public class SimpleTone extends Sound {
     private final int NUM_TAPER_CYCLES = 4;
-    protected final int samplesPerCycle;
-    protected final int rampLen;
-    protected final int releaseStartSample;
+    private final int samplesPerCycle;
+    private final int rampLen;
+    private final int releaseStartSample;
 
-    public SimpleTone(int freqHz, int durationInMs, int _sampleRate) {
-        super(durationInMs, _sampleRate);
+    public SimpleTone(int freqHz, int durationInMs, int sampleRate) {
+        super(durationInMs, sampleRate);
 
         if (freqHz == 0) {
-            throw new IllegalStateException("Illegal input frequency of 0HZ");
+            throw new IllegalArgumentException("Illegal input frequency of 0Hz");
         }
 
         // How does cycle of tone we're generating fit into samples buffer?
@@ -55,13 +54,9 @@ public class SimpleTone extends Sound {
         }
     }
 
-    public SimpleTone(int freqHz, int durationInMs) {
-        this(freqHz, durationInMs, defaultSampleRate);
-    }
-
     // Ramp amplitude of first and last few complete cycles up and down to
     // create a more pleasant sound; "attack" and "release".
-    protected double shapeAmplitude(int sampleNum, double input) {
+    private double shapeAmplitude(int sampleNum, double input) {
         double output;
 
         if (isAttackCycle(sampleNum)) {
@@ -75,15 +70,15 @@ public class SimpleTone extends Sound {
         return output;
     }
 
-    protected boolean isAttackCycle(int sampleNum) {
+    private boolean isAttackCycle(int sampleNum) {
         return (sampleNum < rampLen);
     }
 
-    protected boolean isReleaseCycle(int sampleNum) {
+    private boolean isReleaseCycle(int sampleNum) {
         return (releaseStartSample <= sampleNum);
     }
 
-    protected double getAttackGain(int sampleNum) {
+    private double getAttackGain(int sampleNum) {
         int rampPosition = sampleNum;
 
         if (rampPosition < 0) rampPosition = 0;
@@ -92,7 +87,7 @@ public class SimpleTone extends Sound {
         return gain;
     }
 
-    protected double getReleaseGain(int sampleNum) {
+    private double getReleaseGain(int sampleNum) {
         int rampPosition = numSamples - sampleNum;
 
         if (rampPosition < 0) rampPosition = 0;

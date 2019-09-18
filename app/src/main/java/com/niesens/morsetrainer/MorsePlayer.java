@@ -33,8 +33,6 @@ public class MorsePlayer {
     private int charPosition;
     private int wpm;
     private int farnsworth;
-    private int wpmDitLenMs;
-    private int farnsworthDitLenMs;
     private int pitch;
     private int currentPitch;
     private boolean randomPitch;
@@ -50,8 +48,6 @@ public class MorsePlayer {
     MorsePlayer(int wpm, int farnsworth,int pitch, boolean randomPitch) {
         this.wpm = wpm;
         this.farnsworth = (farnsworth > getWpm()) ? getWpm() : farnsworth;
-        this.wpmDitLenMs = ditLenMsFromWpm(getWpm());
-        this.farnsworthDitLenMs = ditLenMsFromWpm(getFarnsworth());
         this.pitch = pitch;
         setCurrentPitch(pitch);
         this.randomPitch = randomPitch;
@@ -59,7 +55,7 @@ public class MorsePlayer {
         updateDahSound();
         updateIntraCharSpace();
         updateInterCharSpace();
-        updateWordBreakAudioData();
+        updateInterWordSpace();
 
         int bufferSize = AudioTrack.getMinBufferSize(SAMPLE_RATE_HZ, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT);
         audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE_HZ, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, bufferSize, AudioTrack.MODE_STREAM);
@@ -72,7 +68,6 @@ public class MorsePlayer {
 
     public void setWpm(int wpm) {
         this.wpm = wpm;
-        this.wpmDitLenMs = ditLenMsFromWpm(getWpm());
         updateDitSound();
         updateDahSound();
         updateIntraCharSpace();
@@ -84,9 +79,8 @@ public class MorsePlayer {
 
     public void setFarnsworth(int farnsworth) {
         this.farnsworth = (farnsworth > getWpm()) ? getWpm() : farnsworth;
-        this.farnsworthDitLenMs = ditLenMsFromWpm(getFarnsworth());
         updateInterCharSpace();
-        updateWordBreakAudioData();
+        updateInterWordSpace();
     }
 
     public int getPitch() {
@@ -116,7 +110,7 @@ public class MorsePlayer {
         }
     }
 
-    private int ditLenMsFromWpm(int wpm) {
+    private int getUnitLength() {
         // See website referenced at top of file for the following formula:
         // t = 60 / (wpm * 50)
         //
@@ -127,24 +121,28 @@ public class MorsePlayer {
         return 1200 / wpm;
     }
 
+    private int getFarnsworthUnitLength() {
+        return 1200 / farnsworth;
+    }
+
     private void updateDitSound() {
-        ditSound = new SimpleTone(currentPitch, wpmDitLenMs, SAMPLE_RATE_HZ);
+        ditSound = new SimpleTone(currentPitch, getUnitLength(), SAMPLE_RATE_HZ);
     }
 
     private void updateDahSound() {
-        dahSound = new SimpleTone(currentPitch, wpmDitLenMs * 3, SAMPLE_RATE_HZ);
+        dahSound = new SimpleTone(currentPitch, getUnitLength() * 3, SAMPLE_RATE_HZ);
     }
 
     private void updateIntraCharSpace() {
-        intraCharSpace = new Silence(wpmDitLenMs, SAMPLE_RATE_HZ);
+        intraCharSpace = new Silence(getUnitLength(), SAMPLE_RATE_HZ);
     }
 
     private void updateInterCharSpace() {
-        interCharSpace = new Silence(farnsworthDitLenMs * 3, SAMPLE_RATE_HZ);
+        interCharSpace = new Silence(getFarnsworthUnitLength() * 3, SAMPLE_RATE_HZ);
     }
 
-    private void updateWordBreakAudioData() {
-        interWordSpace = new Silence(farnsworthDitLenMs * 7, SAMPLE_RATE_HZ);
+    private void updateInterWordSpace() {
+        interWordSpace = new Silence(getFarnsworthUnitLength() * 7, SAMPLE_RATE_HZ);
     }
 
     private void playSound(Sound s) {
@@ -157,12 +155,7 @@ public class MorsePlayer {
             return false;
         }
 
-        if (morseCode.charAt(current + 1) == '-' ||
-            morseCode.charAt(current + 1) == '.') {
-            return true;
-        }
-
-        return false;
+        return morseCode.charAt(current + 1) == '-' || morseCode.charAt(current + 1) == '.';
     }
 
     public void play(String morseCode) {
@@ -191,7 +184,6 @@ public class MorsePlayer {
                     break;
             }
         }
-        //audioTrack.stop();
     }
 
     public void stop() {
