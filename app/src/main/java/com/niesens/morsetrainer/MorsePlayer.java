@@ -25,6 +25,8 @@ import android.media.AudioTrack;
 
 import java.util.Random;
 
+// See https://morsecode.scphillips.com/timing.html for info about morse code;
+// including WPM calculations, terminilogy, and others.
 public class MorsePlayer {
     private static final int SAMPLE_RATE_HZ = 48000;
 
@@ -34,11 +36,11 @@ public class MorsePlayer {
     private int pitch;
     private int currentPitch;
     private boolean randomPitch;
-    private short[] ditAudioData;
-    private short[] dahAudioData;
-    private short[] componentBreakAudioData;
-    private short[] characterBreakAudioData;
-    private short[] wordBreakAudioData;
+    private Sound ditSound;
+    private Sound dahSound;
+    private Sound intraCharSpace; // Space between dit and dah in each character
+    private Sound interCharSpace; // Space between characters
+    private Sound interWordSpace;
     private AudioTrack audioTrack;
     private Random random = new Random();
 
@@ -49,11 +51,11 @@ public class MorsePlayer {
         this.pitch = pitch;
         setCurrentPitch(pitch);
         this.randomPitch = randomPitch;
-        updateDitAudioData();
-        updateDahAudioData();
-        updateComponentBreakAudioData();
-        updateCharacterBreakAudioData();
-        updateWordBreakAudioData();
+        updateDitSound();
+        updateDahSound();
+        updateIntraCharSpace();
+        updateInterCharSpace();
+        updateInterWordSpace();
 
         int bufferSize = AudioTrack.getMinBufferSize(SAMPLE_RATE_HZ, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT);
         audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE_HZ, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, bufferSize, AudioTrack.MODE_STREAM);
@@ -66,9 +68,9 @@ public class MorsePlayer {
 
     public void setWpm(int wpm) {
         this.wpm = wpm;
-        updateDitAudioData();
-        updateDahAudioData();
-        updateComponentBreakAudioData();
+        updateDitSound();
+        updateDahSound();
+        updateIntraCharSpace();
     }
 
     public int getFarnsworth() {
@@ -77,8 +79,8 @@ public class MorsePlayer {
 
     public void setFarnsworth(int farnsworth) {
         this.farnsworth = (farnsworth > getWpm()) ? getWpm() : farnsworth;
-        updateCharacterBreakAudioData();
-        updateWordBreakAudioData();
+        updateInterCharSpace();
+        updateInterWordSpace();
     }
 
     public int getPitch() {
@@ -92,9 +94,8 @@ public class MorsePlayer {
 
     private void setCurrentPitch(int pitch) {
         this.currentPitch = pitch;
-        updateDitAudioData();
-        updateDahAudioData();
-        updateComponentBreakAudioData();
+        updateDitSound();
+        updateDahSound();
     }
 
     public boolean isRandomPitch() {
@@ -109,61 +110,52 @@ public class MorsePlayer {
         }
     }
 
-    private void updateDitAudioData() {
-        ditAudioData = new short[SAMPLE_RATE_HZ * (1200 / wpm) / 1000];
-        for (int i = 0; i < ditAudioData.length; i++) {
-            ditAudioData[i] = (short) (Math.sin((2.0 * Math.PI * i / (SAMPLE_RATE_HZ / currentPitch))) * Short.MAX_VALUE);
+    private int getUnitLength() {
+        // See website referenced at top of file for the following formula:
+        // t = 60 / (wpm * 50)
+        //
+        // multiply top and bottom by 20 - want 1000 on bottom
+        // t = 1200 / (wpm * 1000)
+        //
+        // drop 1000 from bottom - convert from seconds to milliseconds
+        return 1200 / wpm;
+    }
+
+    private int getFarnsworthUnitLength() {
+        return 1200 / farnsworth;
+    }
+
+    private void updateDitSound() {
+        ditSound = new SimpleTone(currentPitch, getUnitLength(), SAMPLE_RATE_HZ);
+    }
+
+    private void updateDahSound() {
+        dahSound = new SimpleTone(currentPitch, getUnitLength() * 3, SAMPLE_RATE_HZ);
+    }
+
+    private void updateIntraCharSpace() {
+        intraCharSpace = new Silence(getUnitLength(), SAMPLE_RATE_HZ);
+    }
+
+    private void updateInterCharSpace() {
+        interCharSpace = new Silence(getFarnsworthUnitLength() * 3, SAMPLE_RATE_HZ);
+    }
+
+    private void updateInterWordSpace() {
+        interWordSpace = new Silence(getFarnsworthUnitLength() * 7, SAMPLE_RATE_HZ);
+    }
+
+    private void playSound(Sound s) {
+        audioTrack.write(s.getSamples(), 0, s.getNumSamples());
+    }
+
+    private boolean doesDitOrDahFollow(String morseCode, int current) {
+        // Avoid invalid deref
+        if ((current < 0) || (current >= morseCode.length())) {
+            return false;
         }
-    }
 
-    private void updateDahAudioData() {
-        dahAudioData = new short[SAMPLE_RATE_HZ * 3 * (1200 / wpm) / 1000];
-        for (int i = 0; i < dahAudioData.length; i++) {
-            dahAudioData[i] = (short) (Math.sin((2.0 * Math.PI * i / (SAMPLE_RATE_HZ / currentPitch))) * Short.MAX_VALUE);
-        }
-    }
-
-    private void updateComponentBreakAudioData() {
-        componentBreakAudioData = new short[SAMPLE_RATE_HZ * (1200 / wpm) / 1000];
-        for (int i = 0; i < componentBreakAudioData.length; i++) {
-            componentBreakAudioData[i] = 0;
-        }
-    }
-
-    private void updateCharacterBreakAudioData() {
-        characterBreakAudioData = new short[SAMPLE_RATE_HZ * 3 * (1200 / farnsworth) / 1000];
-        for (int i = 0; i < characterBreakAudioData.length; i++) {
-            characterBreakAudioData[i] = 0;
-        }
-    }
-
-    private void updateWordBreakAudioData() {
-        wordBreakAudioData = new short[SAMPLE_RATE_HZ * 7 * (1200 / farnsworth) / 1000];
-        for (int i = 0; i < wordBreakAudioData.length; i++) {
-            wordBreakAudioData[i] = 0;
-        }
-    }
-
-    private void playDit() {
-        audioTrack.write(ditAudioData, 0, ditAudioData.length);
-        playComponentBreak();
-    }
-
-    private void playDah() {
-        audioTrack.write(dahAudioData, 0, dahAudioData.length);
-        playComponentBreak();
-    }
-
-    private void playComponentBreak() {
-        audioTrack.write(componentBreakAudioData, 0, componentBreakAudioData.length);
-    }
-
-    private void playCharacterBreak() {
-        audioTrack.write(characterBreakAudioData, 0, characterBreakAudioData.length);
-    }
-
-    private void playWordBreak() {
-        audioTrack.write(wordBreakAudioData, 0, wordBreakAudioData.length);
+        return morseCode.charAt(current + 1) == '-' || morseCode.charAt(current + 1) == '.';
     }
 
     public void play(String morseCode) {
@@ -177,20 +169,21 @@ public class MorsePlayer {
         for (charPosition = 0; charPosition < morseCode.length(); charPosition++) {
             switch(morseCode.charAt(charPosition)) {
                 case '.':
-                    playDit();
+                    playSound(ditSound);
+                    if (doesDitOrDahFollow(morseCode, charPosition)) playSound(intraCharSpace);
                     break;
                 case '-':
-                    playDah();
+                    playSound(dahSound);
+                    if (doesDitOrDahFollow(morseCode, charPosition)) playSound(intraCharSpace);
                     break;
                 case ' ':
-                    playCharacterBreak();
+                    playSound(interCharSpace);
                     break;
                 case '|':
-                    playWordBreak();
+                    playSound(interWordSpace);
                     break;
             }
         }
-        audioTrack.stop();
     }
 
     public void stop() {
