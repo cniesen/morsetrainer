@@ -55,9 +55,10 @@
             android:layout_height="wrap_content"
             android:text="@string/about_version_label"
             android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/appVersion"
@@ -130,6 +131,37 @@
         app:layout_constraintTop_toBottomOf="@+id/support" />
 
     <TextView
+        android:id="@+id/contributors_heading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/contributors_heading"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/supportUrl" />
+
+    <TextView
+        android:id="@+id/contributors"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginStart="32dp"
+        android:text="@string/contributors"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contributors_heading" />
+
+    <TextView
         android:id="@+id/note_of_thanks"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -142,7 +174,7 @@
         android:text="@string/note_of_thanks"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/supportUrl" />
+        app:layout_constraintTop_toBottomOf="@+id/contributors" />
 
     <TextView
         android:id="@+id/signature"
