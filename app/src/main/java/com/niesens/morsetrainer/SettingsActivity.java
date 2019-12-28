@@ -195,6 +195,9 @@ public class SettingsActivity extends AppPreferenceActivity {
                 case "morse_wpm" :
                     ((SeekBarPreference) preference).setCurrentValue(getMorseWpmPreference(sharedPreferences));
                     break;
+                case "morse_farnsworth_enabled" :
+                    ((SwitchPreference) preference).setChecked(getMorseFarnsworthEnabledPreference(sharedPreferences));
+                    break;
                 case "morse_farnsworth" :
                     ((SeekBarPreference) preference).setCurrentValue(getMorseFarnsworthPreference(sharedPreferences));
                     break;
@@ -223,6 +226,10 @@ public class SettingsActivity extends AppPreferenceActivity {
 
         private int getMorseWpmPreference(SharedPreferences sharedPreferences) {
             return sharedPreferences.getInt("morse_wpm", getResources().getInteger(R.integer.default_morse_wpm));
+        }
+
+        private boolean getMorseFarnsworthEnabledPreference(SharedPreferences sharedPreferences) {
+            return sharedPreferences.getBoolean("morse_farnsworth_enabled", getResources().getBoolean(R.bool.default_morse_farnsworth_enabled));
         }
 
         private int getMorseFarnsworthPreference(SharedPreferences sharedPreferences) {

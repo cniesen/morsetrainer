@@ -33,6 +33,13 @@
             sample:msbp_interval="1"
             sample:msbp_measurementUnit="wpm"/>
 
+        <SwitchPreference
+            android:defaultValue="@bool/default_morse_farnsworth_enabled"
+            android:key="morse_farnsworth_enabled"
+            android:title="@string/pref_title_morse_farnsworth_enabled"
+            android:summary="@string/pref_description_morse_farnsworth_enabled"
+            android:disableDependentsState="false"/>
+
         <com.niesens.morsetrainer.seekbarpreference.SeekBarPreference
             android:key="morse_farnsworth"
             android:title="@string/pref_title_morse_farnsworth"
@@ -41,7 +48,8 @@
             sample:msbp_minValue="1"
             sample:msbp_maxValue="100"
             sample:msbp_interval="1"
-            sample:msbp_measurementUnit="wpm"/>
+            sample:msbp_measurementUnit="wpm"
+            android:dependency="morse_farnsworth_enabled"/>
 
         <com.niesens.morsetrainer.seekbarpreference.SeekBarPreference
             android:key="morse_pitch"

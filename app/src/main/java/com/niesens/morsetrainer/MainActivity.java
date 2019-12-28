@@ -309,6 +309,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             case "morse_wpm" :
                 morsePlayer.setWpm(getMorseWpmPreference(sharedPreferences));
                 break;
+            case "morse_farnsworth_enabled" :
             case "morse_farnsworth" :
                 morsePlayer.setFarnsworth(getMorseFarnsworthPreference(sharedPreferences));
                 break;
@@ -352,7 +353,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                     textSpeaker.setAfterSpeakDelay(getDelayAfterAnswerPreference(sharedPreferences));
                 }
                 break;
-
         }
 
     }
@@ -362,7 +362,12 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     }
 
     private int getMorseFarnsworthPreference(SharedPreferences sharedPreferences) {
-        return sharedPreferences.getInt("morse_farnsworth", getResources().getInteger(R.integer.default_morse_farnsworth));
+        if (sharedPreferences.getBoolean("morse_farnsworth_enabled", getResources().getBoolean((R.bool.default_morse_farnsworth_enabled)))) {
+            return sharedPreferences.getInt("morse_farnsworth", getResources().getInteger(R.integer.default_morse_farnsworth));
+        } else {
+            return sharedPreferences.getInt("morse_wpm", getResources().getInteger(R.integer.default_morse_wpm));
+        }
+
     }
 
     private int getMorsePitchPreference(SharedPreferences sharedPreferences) {

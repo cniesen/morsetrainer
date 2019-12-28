@@ -52,8 +52,11 @@
     <string name="pref_title_morse_wpm">Speed (wpm)</string>
     <string name="pref_description_morse_wpm">The speed in words per minute, taking "Paris" as the standard word.</string>
 
-    <string name="pref_title_morse_farnsworth">Farnsworth spacing</string>
-    <string name="pref_description_morse_farnsworth">The Farnsworth speed slows down the spacing between letters and words, making it easier to learn morse.  It should be lower value than the speed.</string>
+    <string name="pref_title_morse_farnsworth_enabled">Farnsworth spacing</string>
+    <string name="pref_description_morse_farnsworth_enabled">Farnsworth spacing allows a slower speed for the spacing between letters and words, making it easier to learn morse.</string>
+
+    <string name="pref_title_morse_farnsworth">Farnsworth spacing speed</string>
+    <string name="pref_description_morse_farnsworth">The Farnsworth speed should be lower value than the Morse speed.</string>
 
     <string name="pref_title_morse_pitch">Pitch (Hz)</string>
     <string name="pref_description_morse_pitch">Higher pitch makes a higher tone.</string>
