@@ -88,5 +88,7 @@
 
     <string name="pref_title_ui_reset">Reset Preferences</string>
     <string name="pref_description_ui_reset">Reset ui preferences to default values.</string>
+    <string name="seekbar_filler_value">000</string>
+    <string name="measurement_unit_value">wpm</string>
 
 </resources>
