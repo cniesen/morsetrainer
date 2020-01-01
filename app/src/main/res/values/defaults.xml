@@ -19,6 +19,7 @@
   -->
 
 <resources>
+    <bool name="default_morse_high_wpm">false</bool>
     <integer name="default_morse_wpm">20</integer>
     <bool name="default_morse_farnsworth_enabled">true</bool>
     <integer name="default_morse_farnsworth">20</integer>

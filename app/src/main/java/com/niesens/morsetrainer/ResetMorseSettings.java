@@ -37,6 +37,7 @@ public class ResetMorseSettings extends DialogPreference {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
             sharedPreferences.edit()
+                    .putBoolean("morse_high_wpm", getContext().getResources().getBoolean(R.bool.default_morse_high_wpm))
                     .putInt("morse_wpm", getContext().getResources().getInteger(R.integer.default_morse_wpm))
                     .putBoolean("morse_farnsworth_enabled", getContext().getResources().getBoolean(R.bool.default_morse_farnsworth_enabled))
                     .putInt("morse_farnsworth", getContext().getResources().getInteger(R.integer.default_morse_farnsworth))

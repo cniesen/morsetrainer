@@ -23,6 +23,12 @@
 
     <PreferenceCategory>
 
+        <SwitchPreference
+            android:defaultValue="@bool/default_morse_high_wpm"
+            android:key="morse_high_wpm"
+            android:title="@string/pref_title_morse_high_wpm"
+            android:summary="@string/pref_description_morse_high_wpm"/>
+
         <com.niesens.morsetrainer.seekbarpreference.SeekBarPreference
             android:key="morse_wpm"
             android:title="@string/pref_title_morse_wpm"

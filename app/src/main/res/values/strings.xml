@@ -49,6 +49,9 @@
     <!-- Strings related to Settings -->
     <string name="pref_morse">Morse Code</string>
 
+    <string name="pref_title_morse_high_wpm">High Speed</string>
+    <string name="pref_description_morse_high_wpm">Enable up to 100 wpm on this settings screen. Otherwise max is at 50 wpm for easier slider usage.</string>
+
     <string name="pref_title_morse_wpm">Speed (wpm)</string>
     <string name="pref_description_morse_wpm">The speed in words per minute, taking "Paris" as the standard word.</string>
 

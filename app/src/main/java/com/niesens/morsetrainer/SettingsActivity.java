@@ -192,6 +192,16 @@ public class SettingsActivity extends AppPreferenceActivity {
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             Preference preference = findPreference(key);
             switch (key) {
+                case "morse_high_wpm":
+                    ((SwitchPreference) preference).setChecked(getMorseHighWpmPreference(sharedPreferences));
+                    if (getMorseHighWpmPreference(sharedPreferences)) {
+                        ((SeekBarPreference) findPreference("morse_wpm")).setMaxValue(100);
+                        ((SeekBarPreference) findPreference("morse_farnsworth")).setMaxValue(100);
+                    } else {
+                        ((SeekBarPreference) findPreference("morse_wpm")).setMaxValue(50);
+                        ((SeekBarPreference) findPreference("morse_farnsworth")).setMaxValue(50);
+                    }
+                    break;
                 case "morse_wpm" :
                     ((SeekBarPreference) preference).setCurrentValue(getMorseWpmPreference(sharedPreferences));
                     break;
@@ -215,6 +225,13 @@ public class SettingsActivity extends AppPreferenceActivity {
             super.onResume();
             getPreferenceScreen().getSharedPreferences()
                     .registerOnSharedPreferenceChangeListener(this);
+            if (getMorseHighWpmPreference(getPreferenceScreen().getSharedPreferences())) {
+                ((SeekBarPreference) findPreference("morse_wpm")).setMaxValue(100);
+                ((SeekBarPreference) findPreference("morse_farnsworth")).setMaxValue(100);
+            } else {
+                ((SeekBarPreference) findPreference("morse_wpm")).setMaxValue(50);
+                ((SeekBarPreference) findPreference("morse_farnsworth")).setMaxValue(50);
+            }
         }
 
         @Override
@@ -224,6 +241,9 @@ public class SettingsActivity extends AppPreferenceActivity {
                     .unregisterOnSharedPreferenceChangeListener(this);
         }
 
+        private boolean getMorseHighWpmPreference(SharedPreferences sharedPreferences) {
+            return sharedPreferences.getBoolean("morse_high_wpm", getResources().getBoolean(R.bool.default_morse_high_wpm));
+        }
         private int getMorseWpmPreference(SharedPreferences sharedPreferences) {
             return sharedPreferences.getInt("morse_wpm", getResources().getInteger(R.integer.default_morse_wpm));
         }
