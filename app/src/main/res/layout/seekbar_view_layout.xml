@@ -85,6 +85,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="4dp"
+                        android:text="@string/seekbar_filler_value"
                         android:textSize="14sp"
                         android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="1"/>
@@ -92,6 +93,7 @@
                         android:id="@+id/measurement_unit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@string/measurement_unit_value"
                         android:textSize="14sp"
                         android:ellipsize="marquee"
                         android:textColor="?android:attr/textColorSecondary"
