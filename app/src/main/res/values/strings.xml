@@ -39,6 +39,8 @@
     <string name="help_create_word_list">To create your own word list create a new text file with the \".txt\" suffix in the \"Claus\' Morse Trainer\" directory of the internal storage. Each line should be a character, word or phrase that you want to learn. If the spoken words differ from the morse text then separate the morse text with a vertical pipe \"|\" from the spoken text (e.g. \"fb|fine business\").</string>
     <string name="support">To report issues, get support or view the source code please visit the following link.</string>
     <string name="support_page_url">https://github.com/cniesen/morsetrainer</string>
+    <string name="contributors_heading">Contributions</string>
+    <string name="contributors">&#8226; Nathan Crapo: improved dit &amp; dah sounds.</string>
     <string name="note_of_thanks">Special thanks to my CW Academy advisor Dan and buddy Matt for not giving up on me.</string>
     <string name="signature">Best wishes to your morse study,\n\tClaus Niesen (AE0S)</string>
     <string name="home_page_url">https://cqqrz.github.io/</string>
