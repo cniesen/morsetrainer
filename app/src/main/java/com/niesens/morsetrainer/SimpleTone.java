@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2019 Nathan Crapo
+ *  Copyright (C) 2020 Nathan Crapo
  *
  *  This file is part of Claus' Morse Trainer.
  *
