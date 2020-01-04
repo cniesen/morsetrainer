@@ -4,7 +4,7 @@ Word Lists
 Claus' Morse Code Trainer (Learn CW) uses the "Claus' Morse Trainer" folder at the root of the internal storage to store the word list for your training.
 
 Each world list is a file with characters, words or phases that you want to learn.  Several files are supplied when you install the application.  Additional
-files can be found at https://github.com/k0tet/morsetrainer/tree/master/additional_word_lists .  You can also create your own word list, which is
+files can be found at https://github.com/cniesen/morsetrainer/tree/master/additional_word_lists .  You can also create your own word list, which is
 highly recommended to optimize your training to the character and words that you need.
 
 
