@@ -196,14 +196,13 @@ public class SettingsActivity extends AppPreferenceActivity {
                     ((SwitchPreference) preference).setChecked(getMorseHighWpmPreference(sharedPreferences));
                     if (getMorseHighWpmPreference(sharedPreferences)) {
                         ((SeekBarPreference) findPreference("morse_wpm")).setMaxValue(100);
-                        ((SeekBarPreference) findPreference("morse_farnsworth")).setMaxValue(100);
                     } else {
                         ((SeekBarPreference) findPreference("morse_wpm")).setMaxValue(50);
-                        ((SeekBarPreference) findPreference("morse_farnsworth")).setMaxValue(50);
                     }
                     break;
                 case "morse_wpm" :
                     ((SeekBarPreference) preference).setCurrentValue(getMorseWpmPreference(sharedPreferences));
+                    ((SeekBarPreference) findPreference("morse_farnsworth")).setMaxValue(getMorseWpmPreference(sharedPreferences));
                     break;
                 case "morse_farnsworth_enabled" :
                     ((SwitchPreference) preference).setChecked(getMorseFarnsworthEnabledPreference(sharedPreferences));
@@ -223,22 +222,21 @@ public class SettingsActivity extends AppPreferenceActivity {
         @Override
         public void onResume() {
             super.onResume();
-            getPreferenceScreen().getSharedPreferences()
-                    .registerOnSharedPreferenceChangeListener(this);
+            SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
+            sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+
             if (getMorseHighWpmPreference(getPreferenceScreen().getSharedPreferences())) {
                 ((SeekBarPreference) findPreference("morse_wpm")).setMaxValue(100);
-                ((SeekBarPreference) findPreference("morse_farnsworth")).setMaxValue(100);
             } else {
                 ((SeekBarPreference) findPreference("morse_wpm")).setMaxValue(50);
-                ((SeekBarPreference) findPreference("morse_farnsworth")).setMaxValue(50);
             }
+            ((SeekBarPreference) findPreference("morse_farnsworth")).setMaxValue(getMorseWpmPreference(sharedPreferences));
         }
 
         @Override
         public void onPause() {
             super.onPause();
-            getPreferenceScreen().getSharedPreferences()
-                    .unregisterOnSharedPreferenceChangeListener(this);
+            getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         }
 
         private boolean getMorseHighWpmPreference(SharedPreferences sharedPreferences) {
