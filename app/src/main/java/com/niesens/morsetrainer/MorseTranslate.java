@@ -24,6 +24,7 @@ import java.util.Map;
 
 public class MorseTranslate {
     private static final Map<Character, String> charToMorse = initCharToMorse();
+    private static final Map<Character, String> ruCharToMorse = initRuCharToMorse();
     private static final Map<String, String> prosignToMorse = initProsignToMorse();
 
     private static Map<Character, String> initCharToMorse() {
@@ -79,6 +80,44 @@ public class MorseTranslate {
         charToMorse.put(' ', "|");
         return charToMorse;
     }
+    
+    private static Map<Char,String> initRuCharToMorse() {
+        Map<Character, String> ruCharToMorse = new HashMap<>();
+        ruCharToMorse.put('а', ".-");
+        ruCharToMorse.put('б', "-...");
+        ruCharToMorse.put('в', ".--");
+        ruCharToMorse.put('г', "--.");
+        ruCharToMorse.put('д', "-..");
+        ruCharToMorse.put('е', ".");
+        ruCharToMorse.put('ё', ".");
+        ruCharToMorse.put('ж', "...-");
+        ruCharToMorse.put('з', "--..");
+        ruCharToMorse.put('и', "..");
+        ruCharToMorse.put('й', ".---");
+        ruCharToMorse.put('к', "-.-");
+        ruCharToMorse.put('л', ".-..");
+        ruCharToMorse.put('м', "--");
+        ruCharToMorse.put('н', "-.");
+        ruCharToMorse.put('о', "---");
+        ruCharToMorse.put('п', ".--.");
+        ruCharToMorse.put('р', ".-.");
+        ruCharToMorse.put('с', "...");
+        ruCharToMorse.put('т', "-");
+        ruCharToMorse.put('у', "..-");
+        ruCharToMorse.put('ф', "..-.");
+        ruCharToMorse.put('х', "....");
+        ruCharToMorse.put('ц', "-.-.");
+        ruCharToMorse.put('ч', "---.");
+        ruCharToMorse.put('ш', "----");
+        ruCharToMorse.put('щ', "--.-");
+        ruCharToMorse.put('ъ', ".--.-.");
+        ruCharToMorse.put('ы', "-.--");
+        ruCharToMorse.put('ь', "-..-");
+        ruCharToMorse.put('э', "..-..");
+        ruCharToMorse.put('ю', "..--");
+        ruCharToMorse.put('я', ".-.-");
+        return ruCharToMorse;
+    }
 
     private static Map<String,String> initProsignToMorse() {
         Map<String, String> prosignToMorse = new HashMap<>();
@@ -104,6 +143,10 @@ public class MorseTranslate {
         for (int i = 0; i < text.length(); i++) {
             if (text.charAt(i) == '<') {
                 // ToDo prosign stuff
+            } else if ((text.charAt(i) >= 'А' && text.charAt(i) <= 'я') ||
+            text.charAt(i) == 'Ё' || text.charAt(i) == 'ё') {
+                morseCode.append(ruCharToMorse.get(Character.toLowerCase(text.charAt(i))));
+                morseCode.append(" ");
             } else {
                 morseCode.append(charToMorse.get(Character.toLowerCase(text.charAt(i))));
                 morseCode.append(" ");
