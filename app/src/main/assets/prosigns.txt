@@ -1,0 +1,11 @@
+<AA>|new line
+<AR>|end of message
+<AS>|wait
+<BK>|break
+<BT>|new paragraph
+<CL>|going off the air
+<CT>|start copying
+<KN>|invite a specific station to transmit
+<SK>|end of transmission
+<SN>|understood
+<SOS>|distress message

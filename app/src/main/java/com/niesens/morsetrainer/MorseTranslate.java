@@ -19,138 +19,136 @@
 
 package com.niesens.morsetrainer;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class MorseTranslate {
-    private static final Map<Character, String> charToMorse = initCharToMorse();
-    private static final Map<Character, String> ruCharToMorse = initRuCharToMorse();
-    private static final Map<String, String> prosignToMorse = initProsignToMorse();
+    private static final CharToMorseTable charToMorse = new CharToMorseTable()
+            .putAll(baseCharacters())
+            .putAll(prosignCharacters())
+            .putAll(russianCharacters());
 
-    private static Map<Character, String> initCharToMorse() {
-        Map<Character, String> charToMorse = new HashMap<>();
-        charToMorse.put('a', ".-");
-        charToMorse.put('b', "-...");
-        charToMorse.put('c', "-.-.");
-        charToMorse.put('d', "-..");
-        charToMorse.put('e', ".");
-        charToMorse.put('f', "..-.");
-        charToMorse.put('g', "--.");
-        charToMorse.put('h', "....");
-        charToMorse.put('i', "..");
-        charToMorse.put('j', ".---");
-        charToMorse.put('k', "-.-");
-        charToMorse.put('l', ".-..");
-        charToMorse.put('m', "--");
-        charToMorse.put('n', "-.");
-        charToMorse.put('o', "---");
-        charToMorse.put('p', ".--.");
-        charToMorse.put('q', "--.-");
-        charToMorse.put('r', ".-.");
-        charToMorse.put('s', "...");
-        charToMorse.put('t', "-");
-        charToMorse.put('u', "..-");
-        charToMorse.put('v', "...-");
-        charToMorse.put('w', ".--");
-        charToMorse.put('x', "-..-");
-        charToMorse.put('y', "-.--");
-        charToMorse.put('z', "--..");
-        charToMorse.put('1', ".----");
-        charToMorse.put('2', "..---");
-        charToMorse.put('3', "...--");
-        charToMorse.put('4', "....-");
-        charToMorse.put('5', ".....");
-        charToMorse.put('6', "-....");
-        charToMorse.put('7', "--...");
-        charToMorse.put('8', "---..");
-        charToMorse.put('9', "----.");
-        charToMorse.put('0', "-----");
-        charToMorse.put('.', ".-.-.-");
-        charToMorse.put(',', "--..--");
-        charToMorse.put(':', "---...");
-        charToMorse.put('?', "..--..");
-        charToMorse.put('\\', ".----.");
-        charToMorse.put('-', "-....-");
-        charToMorse.put('/', "-..-.");
-        charToMorse.put('(', "-.--.-");
-        charToMorse.put(')', "-.--.-");
-        charToMorse.put('"', ".-..-.");
-        charToMorse.put('@', ".--.-.");
-        charToMorse.put('=', "-...-");
-        charToMorse.put(' ', "|");
-        return charToMorse;
-    }
-    
-    private static Map<Char,String> initRuCharToMorse() {
-        Map<Character, String> ruCharToMorse = new HashMap<>();
-        ruCharToMorse.put('а', ".-");
-        ruCharToMorse.put('б', "-...");
-        ruCharToMorse.put('в', ".--");
-        ruCharToMorse.put('г', "--.");
-        ruCharToMorse.put('д', "-..");
-        ruCharToMorse.put('е', ".");
-        ruCharToMorse.put('ё', ".");
-        ruCharToMorse.put('ж', "...-");
-        ruCharToMorse.put('з', "--..");
-        ruCharToMorse.put('и', "..");
-        ruCharToMorse.put('й', ".---");
-        ruCharToMorse.put('к', "-.-");
-        ruCharToMorse.put('л', ".-..");
-        ruCharToMorse.put('м', "--");
-        ruCharToMorse.put('н', "-.");
-        ruCharToMorse.put('о', "---");
-        ruCharToMorse.put('п', ".--.");
-        ruCharToMorse.put('р', ".-.");
-        ruCharToMorse.put('с', "...");
-        ruCharToMorse.put('т', "-");
-        ruCharToMorse.put('у', "..-");
-        ruCharToMorse.put('ф', "..-.");
-        ruCharToMorse.put('х', "....");
-        ruCharToMorse.put('ц', "-.-.");
-        ruCharToMorse.put('ч', "---.");
-        ruCharToMorse.put('ш', "----");
-        ruCharToMorse.put('щ', "--.-");
-        ruCharToMorse.put('ъ', ".--.-.");
-        ruCharToMorse.put('ы', "-.--");
-        ruCharToMorse.put('ь', "-..-");
-        ruCharToMorse.put('э', "..-..");
-        ruCharToMorse.put('ю', "..--");
-        ruCharToMorse.put('я', ".-.-");
-        return ruCharToMorse;
+    private static CharToMorseTable baseCharacters() {
+        return new CharToMorseTable()
+                .put("a", ".-")
+                .put("b", "-...")
+                .put("c", "-.-.")
+                .put("d", "-..")
+                .put("e", ".")
+                .put("f", "..-.")
+                .put("g", "--.")
+                .put("h", "....")
+                .put("i", "..")
+                .put("j", ".---")
+                .put("k", "-.-")
+                .put("l", ".-..")
+                .put("m", "--")
+                .put("n", "-.")
+                .put("o", "---")
+                .put("p", ".--.")
+                .put("q", "--.-")
+                .put("r", ".-.")
+                .put("s", "...")
+                .put("t", "-")
+                .put("u", "..-")
+                .put("v", "...-")
+                .put("w", ".--")
+                .put("x", "-..-")
+                .put("y", "-.--")
+                .put("z", "--..")
+                .put("1", ".----")
+                .put("2", "..---")
+                .put("3", "...--")
+                .put("4", "....-")
+                .put("5", ".....")
+                .put("6", "-....")
+                .put("7", "--...")
+                .put("8", "---..")
+                .put("9", "----.")
+                .put("0", "-----")
+                .put(".", ".-.-.-")
+                .put(",", "--..--")
+                .put(":", "---...")
+                .put("?", "..--..")
+                .put("\\", ".----.")
+                .put("-", "-....-")
+                .put("/", "-..-.")
+                .put("(", "-.--.-")
+                .put(")", "-.--.-")
+                .put("\"", ".-..-.")
+                .put("@", ".--.-.")
+                .put("=", "-...-")
+                .put(" ", "|");
     }
 
-    private static Map<String,String> initProsignToMorse() {
-        Map<String, String> prosignToMorse = new HashMap<>();
-        prosignToMorse.put("<AA>", ".-.-");
-        prosignToMorse.put("<AR>", ".-.-.");
-        prosignToMorse.put("<AS>", ".-...");
-        prosignToMorse.put("<BK>", "-...-.-");
-        prosignToMorse.put("<BT>", "-...-"); // also <TV>
-        prosignToMorse.put("<CL>", "-.-..-..");
-        prosignToMorse.put("<CT>", "-.-.-");
-        prosignToMorse.put("<DO>", "-..---");
-        prosignToMorse.put("<KN>", "-.--.");
-        prosignToMorse.put("<SK>", "...-.-"); // also <VA>
-        prosignToMorse.put("<VA>", "...-.-");
-        prosignToMorse.put("<SN>", "...-."); // also <VE>
-        prosignToMorse.put("<VE>", "...-.");
-        prosignToMorse.put("<SOS>", "...---...");
-        return prosignToMorse;
+    private static CharToMorseTable prosignCharacters() {
+        return new CharToMorseTable()
+                .put("<aa>", ".-.-")
+                .put("<ar>", ".-.-.")
+                .put("<as>", ".-...")
+                .put("<bk>", "-...-.-")
+                .put("<bt>", "-...-") // also <TV>
+                .put("<cl>", "-.-..-..")
+                .put("<ct>", "-.-.-")
+                .put("<do>", "-..---")
+                .put("<kn>", "-.--.")
+                .put("<sk>", "...-.-") // also <VA>
+                .put("<va>", "...-.-")
+                .put("<sn>", "...-.") // also <VE>
+                .put("<ve>", "...-.")
+                .put("<sos>", "...---...");
+    }
+
+    private static CharToMorseTable russianCharacters() {
+        return new CharToMorseTable()
+                .put("а", ".-")
+                .put("б", "-...")
+                .put("в", ".--")
+                .put("г", "--.")
+                .put("д", "-..")
+                .put("е", ".")
+                .put("ё", ".")
+                .put("ж", "...-")
+                .put("з", "--..")
+                .put("и", "..")
+                .put("й", ".---")
+                .put("к", "-.-")
+                .put("л", ".-..")
+                .put("м", "--")
+                .put("н", "-.")
+                .put("о", "---")
+                .put("п", ".--.")
+                .put("р", ".-.")
+                .put("с", "...")
+                .put("т", "-")
+                .put("у", "..-")
+                .put("ф", "..-.")
+                .put("х", "....")
+                .put("ц", "-.-.")
+                .put("ч", "---.")
+                .put("ш", "----")
+                .put("щ", "--.-")
+                .put("ъ", ".--.-.")
+                .put("ы", "-.--")
+                .put("ь", "-..-")
+                .put("э", "..-..")
+                .put("ю", "..--")
+                .put("я", ".-.-");
     }
 
     public static String textToMorse(String text) {
         StringBuilder morseCode = new StringBuilder();
         for (int i = 0; i < text.length(); i++) {
             if (text.charAt(i) == '<') {
-                // ToDo prosign stuff
-            } else if ((text.charAt(i) >= 'А' && text.charAt(i) <= 'я') ||
-            text.charAt(i) == 'Ё' || text.charAt(i) == 'ё') {
-                morseCode.append(ruCharToMorse.get(Character.toLowerCase(text.charAt(i))));
-                morseCode.append(" ");
+                StringBuilder prosign = new StringBuilder();
+                while (text.charAt(i) != '>') {
+                    prosign.append(text.charAt(i));
+                    i++;
+                }
+                prosign.append(text.charAt(i));
+                System.out.println(prosign.toString());
+                morseCode.append(charToMorse.get(prosign.toString()));
             } else {
-                morseCode.append(charToMorse.get(Character.toLowerCase(text.charAt(i))));
-                morseCode.append(" ");
+                morseCode.append(charToMorse.get(text.charAt(i)));
             }
+            morseCode.append(" ");
         }
         return morseCode.toString();
     }
