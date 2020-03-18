@@ -1,3 +1,4 @@
+OPTIONS: speech-language=ru
 а
 б
 в

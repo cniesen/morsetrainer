@@ -50,8 +50,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     ToggleButton toggleButton_speakFirst;
     private MorsePlayer morsePlayer;
     private TextSpeaker textSpeaker;
-    private List<Word> wordList;
+    private WordList wordList;
     Trainer trainer;
 
     @Override
@@ -188,8 +187,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
     }
 
-    private List<Word> createWordList(String fileName) {
-        List<Word> wordList = new ArrayList<>();
+    private WordList createWordList(String fileName) {
+        WordList wordList = new WordList();
+        wordList.setLocale(Locale.getDefault());
 
         BufferedReader reader = null;
         try {
@@ -198,6 +198,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
             String line;
             while ((line = reader.readLine()) != null) {
+                if (wordList.isEmpty() && line.toLowerCase().startsWith("options:")) {
+                    processOptions(line);
+                    continue;
+                }
                 String[] lineArray = line.split("\\|");
                 if (lineArray.length > 1) {
                     wordList.add(new Word(lineArray[0], lineArray[1]));
@@ -217,6 +221,21 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             }
         }
         return wordList;
+    }
+
+    /**
+     * OPTIONS: speech-language=en
+     */
+    private void processOptions(String optionLine) {
+        String[] options = optionLine.substring(8).toLowerCase().split(",");
+        for(String option : options) {
+            String[] optionKeyValue = option.split("=");
+            switch (optionKeyValue[0].trim()) {
+                case "speech-language" :
+                    textSpeaker.setLocale(new Locale(optionKeyValue[1]));
+                    break;
+            }
+        }
     }
 
     private void createExternalStorageDirectory() {
@@ -367,7 +386,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         } else {
             return sharedPreferences.getInt("morse_wpm", getResources().getInteger(R.integer.default_morse_wpm));
         }
-
     }
 
     private int getMorsePitchPreference(SharedPreferences sharedPreferences) {
