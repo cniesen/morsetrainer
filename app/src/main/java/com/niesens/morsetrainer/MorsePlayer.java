@@ -26,7 +26,7 @@ import android.media.AudioTrack;
 import java.util.Random;
 
 // See https://morsecode.scphillips.com/timing.html for info about morse code;
-// including WPM calculations, terminilogy, and others.
+// including WPM calculations, terminology, and others.
 public class MorsePlayer {
     private static final int SAMPLE_RATE_HZ = 48000;
 

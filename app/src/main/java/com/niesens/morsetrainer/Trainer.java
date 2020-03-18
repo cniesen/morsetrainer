@@ -21,18 +21,17 @@ package com.niesens.morsetrainer;
 
 import android.os.AsyncTask;
 
-import java.util.List;
 import java.util.Random;
 
 public class Trainer extends AsyncTask<Void, Void, Void> {
     private MorsePlayer morsePlayer;
     private TextSpeaker textSpeaker;
-    private List<Word> wordList;
+    private WordList wordList;
     private int wordTrainTimes;
     private boolean speakFirst;
     private Random random = new Random();
 
-    Trainer(MorsePlayer morsePlayer, TextSpeaker textSpeaker, List<Word> wordList, int wordTrainTimes, boolean speakFirst) {
+    Trainer(MorsePlayer morsePlayer, TextSpeaker textSpeaker, WordList wordList, int wordTrainTimes, boolean speakFirst) {
         this.morsePlayer = morsePlayer;
         this.textSpeaker = textSpeaker;
         this.wordList = wordList;

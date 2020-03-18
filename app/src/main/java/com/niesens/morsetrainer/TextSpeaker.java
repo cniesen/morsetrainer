@@ -31,7 +31,7 @@ public class TextSpeaker  {
     private TextToSpeech textToSpeech;
     private HashMap<String, String> textToSpeechParams;
     private Activity activity;
-    private Object trainer;
+    private Trainer trainer;
     private int beforeSpeakDelay;
     private int afterSpeakDelay;
     private boolean showToast;
@@ -45,7 +45,7 @@ public class TextSpeaker  {
             @Override
             public void onInit(int status) {
                 if(status != TextToSpeech.ERROR) {
-                    textToSpeech.setLanguage(Locale.US);
+                    textToSpeech.setLanguage(new Locale("ru"));
                     textToSpeech.setOnUtteranceProgressListener(utteranceListener);
                 }
             }
@@ -54,7 +54,15 @@ public class TextSpeaker  {
         textToSpeechParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, activity.getPackageName());
     }
 
-    public void speak(final String text, final Object trainer) {
+    public void setLocale(Locale locale) {
+        if (textToSpeech.isLanguageAvailable(locale) >= 0 ) {
+            textToSpeech.setLanguage(locale);
+        } else {
+            textToSpeech.setLanguage(Locale.US);
+        }
+    }
+
+    public void speak(final String text, final Trainer trainer) {
         try {
             Thread.sleep(beforeSpeakDelay);
         } catch (InterruptedException e) {
