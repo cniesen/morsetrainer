@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     private WordList createWordList(String fileName) {
         WordList wordList = new WordList();
-        wordList.setLocale(Locale.getDefault());
+        textSpeaker.setLocale(Locale.getDefault());
 
         BufferedReader reader = null;
         try {

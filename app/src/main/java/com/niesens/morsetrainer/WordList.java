@@ -20,16 +20,7 @@
 package com.niesens.morsetrainer;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class WordList extends ArrayList<Word> {
-    private Locale locale;
 
-    public Locale getLocale() {
-        return locale;
-    }
-
-    public void setLocale(Locale locale) {
-        this.locale = locale;
-    }
 }
