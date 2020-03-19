@@ -1,3 +1,4 @@
+OPTIONS: speech-language=en
 <AA>|new line
 <AR>|end of message
 <AS>|wait

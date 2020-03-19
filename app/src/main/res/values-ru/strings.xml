@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Copyright (C) 2020 Claus Niesen
+  ~
+  ~  This file is part of Claus' Morse Trainer.
+  ~
+  ~  Claus' Morse Trainer is free software: you can redistribute it and/or modify
+  ~  it under the terms of the GNU General Public License as published by
+  ~  the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~  Claus' Morse Trainer is distributed in the hope that it will be useful,
+  ~  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~  GNU General Public License for more details.
+  ~
+  ~  You should have received a copy of the GNU General Public License
+  ~  along with Claus' Morse Trainer.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+    <string name="app_name">Claus\' Morse Trainer</string>
+
+    <!-- Strings related to main activity -->
+    <string name="choose_practice_file">choose practice file</string>
+    <string name="trainingStartText">Start</string>
+    <string name="trainingStopText">Stop</string>
+    <string name="repeat">Repeat</string>
+    <string name="times">times</string>
+    <string name="audio_hint">Audio hint</string>
+    <string name="after">after</string>
+    <string name="before">before</string>
+    <string name="morse_code">morse code</string>
+
+    <!-- Strings related to about activity -->
+    <string name="about_version_label">Version</string>
+    <string name="about_version_dummy_value">0.00</string>
+    <string name="app_description">A little program to assist me in learning morse code.</string>
+    <string name="help_create_word_list">To create your own word list create a new text file with the \".txt\" suffix in the \"Claus\' Morse Trainer\" directory of the internal storage. Each line should be a character, word or phrase that you want to learn. If the spoken words differ from the morse text then separate the morse text with a vertical pipe \"|\" from the spoken text (e.g. \"fb|fine business\").</string>
+    <string name="support">To report issues, get support or view the source code please visit the following link.</string>
+    <string name="support_page_url">https://github.com/cniesen/morsetrainer</string>
+    <string name="contributors_heading">Contributions</string>
+    <string name="contributors">&#8226; Nathan Crapo: improved dit &amp; dah sounds.</string>
+    <string name="note_of_thanks">Special thanks to my CW Academy advisor Dan and buddy Matt for not giving up on me.</string>
+    <string name="signature">Best wishes to your morse study,\n\tClaus Niesen (AE0S)</string>
+    <string name="home_page_url">https://cqqrz.github.io/</string>
+
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_about">About</string>
+
+    <!-- Strings related to Settings -->
+    <string name="pref_morse">Morse Code</string>
+
+    <string name="pref_title_morse_high_wpm">High Speed</string>
+    <string name="pref_description_morse_high_wpm">Enable up to 100 wpm on this settings screen. Otherwise max is at 50 wpm for easier slider usage.</string>
+
+    <string name="pref_title_morse_wpm">Speed (wpm)</string>
+    <string name="pref_description_morse_wpm">The speed in words per minute, taking "Paris" as the standard word.</string>
+
+    <string name="pref_title_morse_farnsworth_enabled">Farnsworth spacing</string>
+    <string name="pref_description_morse_farnsworth_enabled">Farnsworth spacing allows a slower speed for the spacing between letters and words, making it easier to learn morse.</string>
+
+    <string name="pref_title_morse_farnsworth">Farnsworth spacing speed</string>
+    <string name="pref_description_morse_farnsworth">The Farnsworth speed should be lower value than the Morse speed.</string>
+
+    <string name="pref_title_morse_pitch">Pitch (Hz)</string>
+    <string name="pref_description_morse_pitch">Higher pitch makes a higher tone.</string>
+
+    <string name="pref_title_morse_random_pitch">Random pitch</string>
+    <string name="pref_description_morse_random_pitch">The pitch changes randomly for every training word.</string>
+
+    <string name="pref_title_morse_reset">Reset Preferences</string>
+    <string name="pref_description_morse_reset">Reset morse preferences to default values.</string>
+
+    <string name="pref_answer">Answer</string>
+
+    <string name="pref_title_delay_before_answer">Delay before answer</string>
+    <string name="pref_description_delay_before_answer">How long to wait before the answer is revealed.</string>
+
+    <string name="pref_title_delay_after_answer">Delay after answer</string>
+    <string name="pref_description_delay_after_answer">How long to wait before playing the next morse word.</string>
+
+    <string name="pref_title_answer_toast">Display toast</string>
+    <string name="pref_description_answer_toast">Display answers as toast messages on screen.</string>
+
+    <string name="pref_title_answer_reset">Reset Preferences</string>
+    <string name="pref_description_answer_reset">Reset answer preferences to default values.</string>
+
+    <string name="pref_ui">User Interface</string>
+
+    <string name="pref_title_ui_night_mode">Dark Theme</string>
+    <string name="pref_description_ui_night_mode">Enable dark theme. The new theme is used next time (i.e. app restart is required).</string>
+
+    <string name="pref_title_ui_reset">Reset Preferences</string>
+    <string name="pref_description_ui_reset">Reset ui preferences to default values.</string>
+    <string name="seekbar_filler_value">000</string>
+    <string name="measurement_unit_value">wpm</string>
+
+</resources>

@@ -1,3 +1,4 @@
+OPTIONS: speech-language=en
 tu 5nn al|Alabama
 tu 5nn ak|Alaska
 tu 5nn az|Arizona 
