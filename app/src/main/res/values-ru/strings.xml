@@ -22,77 +22,77 @@
     <string name="app_name">Claus\' Morse Trainer</string>
 
     <!-- Strings related to main activity -->
-    <string name="choose_practice_file">choose practice file</string>
-    <string name="trainingStartText">Start</string>
-    <string name="trainingStopText">Stop</string>
-    <string name="repeat">Repeat</string>
-    <string name="times">times</string>
-    <string name="audio_hint">Audio hint</string>
-    <string name="after">after</string>
-    <string name="before">before</string>
-    <string name="morse_code">morse code</string>
+    <string name="choose_practice_file">выбрать тренировочный файл</string>
+    <string name="trainingStartText">Запустить</string>
+    <string name="trainingStopText">Остановить</string>
+    <string name="repeat">Повторять по</string>
+    <string name="times">раз(-а)</string>
+    <string name="audio_hint">Произносить ответ</string>
+    <string name="after">до</string>
+    <string name="before">после</string>
+    <string name="morse_code">сообщения азбукой Морзе</string>
 
     <!-- Strings related to about activity -->
-    <string name="about_version_label">Version</string>
+    <string name="about_version_label">Версия</string>
     <string name="about_version_dummy_value">0.00</string>
-    <string name="app_description">A little program to assist me in learning morse code.</string>
-    <string name="help_create_word_list">To create your own word list create a new text file with the \".txt\" suffix in the \"Claus\' Morse Trainer\" directory of the internal storage. Each line should be a character, word or phrase that you want to learn. If the spoken words differ from the morse text then separate the morse text with a vertical pipe \"|\" from the spoken text (e.g. \"fb|fine business\").</string>
-    <string name="support">To report issues, get support or view the source code please visit the following link.</string>
+    <string name="app_description">Небольшая программа которая помогает мне при изучении азбуки Морзе.</string>
+    <string name="help_create_word_list">Чтобы составить свой собственный список слов, создайте новый текстовый файл с расширением \".txt\" в папке \"Claus\' Morse Trainer\" на Внутреннем хранилище. Каждая строка файла должна представлять из себя символ, слово или фразу, которую вы хотите отработать. Если вы хотите, чтобы произносимый голосом ответ отличался от сообщения азбукой Морзе, отделите сообщение вертикальной чертой (\"|\") от произносимого (например: \"ДСВ|до свидания\").</string>
+    <string name="support">Чтобы сообщить о проблемах, получить помощь или посмотреть исходный код, пройдите по следующей ссылке:</string>
     <string name="support_page_url">https://github.com/cniesen/morsetrainer</string>
-    <string name="contributors_heading">Contributions</string>
-    <string name="contributors">&#8226; Nathan Crapo: improved dit &amp; dah sounds.</string>
-    <string name="note_of_thanks">Special thanks to my CW Academy advisor Dan and buddy Matt for not giving up on me.</string>
-    <string name="signature">Best wishes to your morse study,\n\tClaus Niesen (AE0S)</string>
+    <string name="contributors_heading">Вклад в проект внесли:</string>
+    <string name="contributors">&#8226; Натан Крапо (Nathan Crapo): улучшил звучание точки и тире.\n&#8226; Igorello74 (R8AABM): способствовал поддержке русских символов, перевёл на русский</string>
+    <string name="note_of_thanks">Отдельное спасибо моему наставнику Дэну из Академии Телеграфа (CW Academy) и другу Мэту за то, что не бросили меня в трудную минуту.</string>
+    <string name="signature">С пожеланием скорейшего освоения азбуки Морзе,\n\tКлаус Нисен (Claus Niesen) (AE0S)</string>
     <string name="home_page_url">https://cqqrz.github.io/</string>
 
-    <string name="title_activity_settings">Settings</string>
-    <string name="title_activity_about">About</string>
+    <string name="title_activity_settings">Настройки</string>
+    <string name="title_activity_about">Подробнее</string>
 
     <!-- Strings related to Settings -->
-    <string name="pref_morse">Morse Code</string>
+    <string name="pref_morse">Параметры генерации сигналов Морзе</string>
 
-    <string name="pref_title_morse_high_wpm">High Speed</string>
-    <string name="pref_description_morse_high_wpm">Enable up to 100 wpm on this settings screen. Otherwise max is at 50 wpm for easier slider usage.</string>
+    <string name="pref_title_morse_high_wpm">Повышенная скорость</string>
+    <string name="pref_description_morse_high_wpm">Увеличить максимальную скорость до 100 wpm, по умолчанию скорость ограничена до 50 wpm для более точной настройки.</string>
 
-    <string name="pref_title_morse_wpm">Speed (wpm)</string>
-    <string name="pref_description_morse_wpm">The speed in words per minute, taking "Paris" as the standard word.</string>
+    <string name="pref_title_morse_wpm">Скорость передачи (wpm)</string>
+    <string name="pref_description_morse_wpm">Скорость измеряется количеством слов в минуту (wpm), считая слово "Paris" за стандартное.</string>
 
-    <string name="pref_title_morse_farnsworth_enabled">Farnsworth spacing</string>
-    <string name="pref_description_morse_farnsworth_enabled">Farnsworth spacing allows a slower speed for the spacing between letters and words, making it easier to learn morse.</string>
+    <string name="pref_title_morse_farnsworth_enabled">Увеличить межбуквенный интервал</string>
+    <string name="pref_description_morse_farnsworth_enabled">Увеличенный межбуквенный (межсловный) интервал (Farnsworth spacing) облегчает изучение азбуки Морзе.</string>
 
-    <string name="pref_title_morse_farnsworth">Farnsworth spacing speed</string>
-    <string name="pref_description_morse_farnsworth">The Farnsworth speed should be lower value than the Morse speed.</string>
+    <string name="pref_title_morse_farnsworth">Увеличенный межбуквенный интервал</string>
+    <string name="pref_description_morse_farnsworth">Также как и скорость передачи, межбуквенный измеряется в количестве слов в минуту. То есть, если вы поставите эту настройку на 5 wpm, интервал между буквами (как и между словами) будет таким же, как при передаче на такой скорости.</string>
 
-    <string name="pref_title_morse_pitch">Pitch (Hz)</string>
-    <string name="pref_description_morse_pitch">Higher pitch makes a higher tone.</string>
+    <string name="pref_title_morse_pitch">Тон (Гц)</string>
+    <string name="pref_description_morse_pitch">Тон сигнала, чем выше тон — тем выше звук.</string>
 
-    <string name="pref_title_morse_random_pitch">Random pitch</string>
-    <string name="pref_description_morse_random_pitch">The pitch changes randomly for every training word.</string>
+    <string name="pref_title_morse_random_pitch">Случайный тон</string>
+    <string name="pref_description_morse_random_pitch">Тон подбирается случайно для каждого слова.</string>
 
-    <string name="pref_title_morse_reset">Reset Preferences</string>
-    <string name="pref_description_morse_reset">Reset morse preferences to default values.</string>
+    <string name="pref_title_morse_reset">Сбросить предпочтения</string>
+    <string name="pref_description_morse_reset">Сбросить предпочтения в группе "Параметры генерации сигналов Морзе"</string>
 
-    <string name="pref_answer">Answer</string>
+    <string name="pref_answer">Ответы</string>
 
-    <string name="pref_title_delay_before_answer">Delay before answer</string>
-    <string name="pref_description_delay_before_answer">How long to wait before the answer is revealed.</string>
+    <string name="pref_title_delay_before_answer">Задержка перед произнесением ответа</string>
+    <string name="pref_description_delay_before_answer">Как долго ждать перед произнесением ответа.</string>
 
-    <string name="pref_title_delay_after_answer">Delay after answer</string>
-    <string name="pref_description_delay_after_answer">How long to wait before playing the next morse word.</string>
+    <string name="pref_title_delay_after_answer">Задержка после ответа</string>
+    <string name="pref_description_delay_after_answer">Как долго ждать перед проигрыванием следующего сообщения.</string>
 
-    <string name="pref_title_answer_toast">Display toast</string>
-    <string name="pref_description_answer_toast">Display answers as toast messages on screen.</string>
+    <string name="pref_title_answer_toast">Показывать всплывающие сообщения</string>
+    <string name="pref_description_answer_toast">Показывать ответы как всплывающие сообщения.</string>
 
-    <string name="pref_title_answer_reset">Reset Preferences</string>
-    <string name="pref_description_answer_reset">Reset answer preferences to default values.</string>
+    <string name="pref_title_answer_reset">Сбросить предпочтения</string>
+    <string name="pref_description_answer_reset">Сбросить предпочтения по Ответам.</string>
 
-    <string name="pref_ui">User Interface</string>
+    <string name="pref_ui">Интерфейс</string>
 
-    <string name="pref_title_ui_night_mode">Dark Theme</string>
-    <string name="pref_description_ui_night_mode">Enable dark theme. The new theme is used next time (i.e. app restart is required).</string>
+    <string name="pref_title_ui_night_mode">Ночная тема</string>
+    <string name="pref_description_ui_night_mode">Включить ночную тему. Новая тема будет использована в следующий раз (к примеру, при перезапуске).</string>
 
-    <string name="pref_title_ui_reset">Reset Preferences</string>
-    <string name="pref_description_ui_reset">Reset ui preferences to default values.</string>
+    <string name="pref_title_ui_reset">Сбросить предпочтения</string>
+    <string name="pref_description_ui_reset">Сбросить предпочтения по Интерфейсу.</string>
     <string name="seekbar_filler_value">000</string>
     <string name="measurement_unit_value">wpm</string>
 
