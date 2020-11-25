@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     Button button_trainingFile;
     NumberPicker numberPicker_wordTrainTimes;
     ToggleButton toggleButton_speakFirst;
+    ToggleButton toggleButton_vocalize;
     private MorsePlayer morsePlayer;
     private TextSpeaker textSpeaker;
     private List<Word> wordList;
@@ -145,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
         button_startStop.setText(R.string.trainingStopText);
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        trainer = new Trainer(morsePlayer, textSpeaker, wordList, getWordTrainTimesPreference(sharedPreferences), toggleButton_speakFirst.isChecked());
+        trainer = new Trainer(morsePlayer, textSpeaker, wordList, getWordTrainTimesPreference(sharedPreferences), toggleButton_speakFirst.isChecked(), getVocalizePreference(sharedPreferences));
         trainer.execute();
     }
 
@@ -388,6 +389,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     private boolean getAnswerToastPreference(SharedPreferences sharedPreferences) {
         return sharedPreferences.getBoolean("answer_toast", getResources().getBoolean(R.bool.default_answer_toast));
+    }
+
+    private boolean getVocalizePreference(SharedPreferences sharedPreferences) {
+        return sharedPreferences.getBoolean("answer_vocalize", getResources().getBoolean(R.bool.default_answer_vocalize));
     }
 
     private String getUiNightModePreference(SharedPreferences sharedPreferences) {

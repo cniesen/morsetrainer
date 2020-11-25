@@ -54,7 +54,7 @@ public class TextSpeaker  {
         textToSpeechParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, activity.getPackageName());
     }
 
-    public void speak(final String text, final Object trainer) {
+    public void speak(final String text, final boolean vocalize, final Object trainer) {
         try {
             Thread.sleep(beforeSpeakDelay);
         } catch (InterruptedException e) {
@@ -70,7 +70,8 @@ public class TextSpeaker  {
                 }
             });
         }
-        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, textToSpeechParams);
+        final String speakText = (vocalize ? text : "");
+        textToSpeech.speak(speakText, TextToSpeech.QUEUE_FLUSH, textToSpeechParams);
     }
 
     public void stop() {
