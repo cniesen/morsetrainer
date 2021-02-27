@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     Button button_trainingFile;
     NumberPicker numberPicker_wordTrainTimes;
     ToggleButton toggleButton_speakFirst;
-    ToggleButton toggleButton_vocalize;
     private MorsePlayer morsePlayer;
     private TextSpeaker textSpeaker;
     private List<Word> wordList;
@@ -81,9 +80,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
         morsePlayer = new MorsePlayer(getMorseWpmPreference(sharedPreferences), getMorseFarnsworthPreference(sharedPreferences), getMorsePitchPreference(sharedPreferences), getMorseRandomPitchPreference(sharedPreferences));
         if (getSpeakFirstPreference(sharedPreferences)) {
-            textSpeaker = new TextSpeaker(this, getDelayAfterAnswerPreference(sharedPreferences), getDelayBeforeAnswerPreference(sharedPreferences), getAnswerToastPreference(sharedPreferences));
+            textSpeaker = new TextSpeaker(this, getDelayAfterAnswerPreference(sharedPreferences), getDelayBeforeAnswerPreference(sharedPreferences), getAnswerToastPreference(sharedPreferences), getVocalizePreference(sharedPreferences));
         } else {
-            textSpeaker = new TextSpeaker(this, getDelayBeforeAnswerPreference(sharedPreferences), getDelayAfterAnswerPreference(sharedPreferences), getAnswerToastPreference(sharedPreferences));
+            textSpeaker = new TextSpeaker(this, getDelayBeforeAnswerPreference(sharedPreferences), getDelayAfterAnswerPreference(sharedPreferences), getAnswerToastPreference(sharedPreferences), getVocalizePreference(sharedPreferences));
         }
 
         boolean hasPermission = (ContextCompat.checkSelfPermission(this,
@@ -146,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
         button_startStop.setText(R.string.trainingStopText);
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        trainer = new Trainer(morsePlayer, textSpeaker, wordList, getWordTrainTimesPreference(sharedPreferences), toggleButton_speakFirst.isChecked(), getVocalizePreference(sharedPreferences));
+        trainer = new Trainer(morsePlayer, textSpeaker, wordList, getWordTrainTimesPreference(sharedPreferences), toggleButton_speakFirst.isChecked());
         trainer.execute();
     }
 
@@ -336,6 +335,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 break;
             case "answer_toast" :
                 textSpeaker.setShowToast(getAnswerToastPreference(sharedPreferences));
+                break;
+            case "answer_vocalize" :
+                textSpeaker.setVocalize(getVocalizePreference(sharedPreferences));
                 break;
             case "word_train_times" :
                 if (trainer != null) {
