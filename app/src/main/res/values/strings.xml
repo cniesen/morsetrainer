@@ -83,6 +83,9 @@
     <string name="pref_title_answer_toast">Display toast</string>
     <string name="pref_description_answer_toast">Display answers as toast messages on screen.</string>
 
+    <string name="pref_title_answer_vocalize">Vocalize</string>
+    <string name="pref_description_answer_vocalize">Speak the answers.</string>
+
     <string name="pref_title_answer_reset">Reset Preferences</string>
     <string name="pref_description_answer_reset">Reset answer preferences to default values.</string>
 

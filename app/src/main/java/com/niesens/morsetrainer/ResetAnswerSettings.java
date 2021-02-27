@@ -38,6 +38,7 @@ public class ResetAnswerSettings extends DialogPreference {
             sharedPreferences.edit().putInt("delay_before_answer", getContext().getResources().getInteger(R.integer.default_delay_before_answer)).apply();
             sharedPreferences.edit().putInt("delay_after_answer", getContext().getResources().getInteger(R.integer.default_delay_after_answer)).apply();
             sharedPreferences.edit().putBoolean("answer_toast", getContext().getResources().getBoolean(R.bool.default_answer_toast)).apply();
+            sharedPreferences.edit().putBoolean("answer_vocalize", getContext().getResources().getBoolean(R.bool.default_answer_vocalize)).apply();
         }
     }
 }

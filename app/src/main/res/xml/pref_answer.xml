@@ -50,6 +50,13 @@
             android:summary="@string/pref_description_answer_toast"
             android:disableDependentsState="true"/>
 
+        <SwitchPreference
+            android:defaultValue="@bool/default_answer_vocalize"
+            android:key="answer_vocalize"
+            android:title="@string/pref_title_answer_vocalize"
+            android:summary="@string/pref_description_answer_vocalize"
+            android:disableDependentsState="true"/>
+
         <com.niesens.morsetrainer.ResetAnswerSettings
             android:title="@string/pref_title_answer_reset"
             android:summary="@string/pref_description_answer_reset"

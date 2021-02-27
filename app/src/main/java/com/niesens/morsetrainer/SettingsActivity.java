@@ -300,6 +300,9 @@ public class SettingsActivity extends AppPreferenceActivity {
                 case "answer_toast" :
                     ((SwitchPreference) preference).setChecked(getAnswerToastPreference(sharedPreferences));
                     break;
+                case "answer_vocalize" :
+                    ((SwitchPreference) preference).setChecked(getAnswerVocalizePreference(sharedPreferences));
+                    break;
             }
         }
 
@@ -327,6 +330,10 @@ public class SettingsActivity extends AppPreferenceActivity {
 
         private boolean getAnswerToastPreference(SharedPreferences sharedPreferences) {
             return sharedPreferences.getBoolean("answer_toast", getResources().getBoolean(R.bool.default_answer_toast));
+        }
+
+        private boolean getAnswerVocalizePreference(SharedPreferences sharedPreferences) {
+            return sharedPreferences.getBoolean("answer_vocalize", getResources().getBoolean(R.bool.default_answer_vocalize));
         }
     }
 
