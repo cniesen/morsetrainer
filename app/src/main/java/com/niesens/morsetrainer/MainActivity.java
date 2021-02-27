@@ -80,9 +80,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
         morsePlayer = new MorsePlayer(getMorseWpmPreference(sharedPreferences), getMorseFarnsworthPreference(sharedPreferences), getMorsePitchPreference(sharedPreferences), getMorseRandomPitchPreference(sharedPreferences));
         if (getSpeakFirstPreference(sharedPreferences)) {
-            textSpeaker = new TextSpeaker(this, getDelayAfterAnswerPreference(sharedPreferences), getDelayBeforeAnswerPreference(sharedPreferences), getAnswerToastPreference(sharedPreferences));
+            textSpeaker = new TextSpeaker(this, getDelayAfterAnswerPreference(sharedPreferences), getDelayBeforeAnswerPreference(sharedPreferences), getAnswerToastPreference(sharedPreferences), getVocalizePreference(sharedPreferences));
         } else {
-            textSpeaker = new TextSpeaker(this, getDelayBeforeAnswerPreference(sharedPreferences), getDelayAfterAnswerPreference(sharedPreferences), getAnswerToastPreference(sharedPreferences));
+            textSpeaker = new TextSpeaker(this, getDelayBeforeAnswerPreference(sharedPreferences), getDelayAfterAnswerPreference(sharedPreferences), getAnswerToastPreference(sharedPreferences), getVocalizePreference(sharedPreferences));
         }
 
         boolean hasPermission = (ContextCompat.checkSelfPermission(this,
@@ -336,6 +336,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             case "answer_toast" :
                 textSpeaker.setShowToast(getAnswerToastPreference(sharedPreferences));
                 break;
+            case "answer_vocalize" :
+                textSpeaker.setVocalize(getVocalizePreference(sharedPreferences));
+                break;
             case "word_train_times" :
                 if (trainer != null) {
                     trainer.setWordTrainTimes(getWordTrainTimesPreference(sharedPreferences));
@@ -388,6 +391,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     private boolean getAnswerToastPreference(SharedPreferences sharedPreferences) {
         return sharedPreferences.getBoolean("answer_toast", getResources().getBoolean(R.bool.default_answer_toast));
+    }
+
+    private boolean getVocalizePreference(SharedPreferences sharedPreferences) {
+        return sharedPreferences.getBoolean("answer_vocalize", getResources().getBoolean(R.bool.default_answer_vocalize));
     }
 
     private String getUiNightModePreference(SharedPreferences sharedPreferences) {

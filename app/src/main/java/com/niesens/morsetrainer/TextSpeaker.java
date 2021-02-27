@@ -35,12 +35,14 @@ public class TextSpeaker  {
     private int beforeSpeakDelay;
     private int afterSpeakDelay;
     private boolean showToast;
+    private boolean vocalize;
 
-    TextSpeaker(Activity activity, int beforeSpeakDelay, int afterSpeakDelay, boolean showToast) {
+    TextSpeaker(Activity activity, int beforeSpeakDelay, int afterSpeakDelay, boolean showToast, boolean vocalize) {
         this.activity = activity;
         this.beforeSpeakDelay = beforeSpeakDelay;
         this.afterSpeakDelay = afterSpeakDelay;
         this.showToast = showToast;
+        this.vocalize = vocalize;
         textToSpeech = new TextToSpeech(activity, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -70,7 +72,8 @@ public class TextSpeaker  {
                 }
             });
         }
-        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, textToSpeechParams);
+        final String speakText = (vocalize ? text : "");
+        textToSpeech.speak(speakText, TextToSpeech.QUEUE_FLUSH, textToSpeechParams);
     }
 
     public void stop() {
@@ -126,5 +129,13 @@ public class TextSpeaker  {
 
     public void setShowToast(boolean showToast) {
         this.showToast = showToast;
+    }
+
+    public boolean isVocalize() {
+        return vocalize;
+    }
+
+    public void setVocalize(boolean vocalize) {
+        this.vocalize = vocalize;
     }
 }
