@@ -27,6 +27,8 @@ import android.widget.Toast;
 import java.util.HashMap;
 import java.util.Locale;
 
+import static android.speech.tts.TextToSpeech.Engine.KEY_PARAM_VOLUME;
+
 public class TextSpeaker  {
     private TextToSpeech textToSpeech;
     private HashMap<String, String> textToSpeechParams;
@@ -72,8 +74,8 @@ public class TextSpeaker  {
                 }
             });
         }
-        final String speakText = (vocalize ? text : "");
-        textToSpeech.speak(speakText, TextToSpeech.QUEUE_FLUSH, textToSpeechParams);
+        textToSpeechParams.put(KEY_PARAM_VOLUME, vocalize ? "1" : "0");
+        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, textToSpeechParams);
     }
 
     public void stop() {
