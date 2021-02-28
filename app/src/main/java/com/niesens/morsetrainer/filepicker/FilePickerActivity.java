@@ -21,9 +21,9 @@ package com.niesens.morsetrainer.filepicker;
 
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.niesens.morsetrainer.R;
 
