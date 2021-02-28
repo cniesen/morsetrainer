@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2020 Claus Niesen
+ *  Copyright (C) 2021 Claus Niesen
  *
  *  This file is part of Claus' Morse Trainer.
  *
@@ -20,8 +20,8 @@
 package com.niesens.morsetrainer;
 
 public class Word {
-    private String morseText;
-    private String speakText;
+    private final String morseText;
+    private final String speakText;
 
     Word(String morseText, String speakText) {
         this.morseText = morseText;

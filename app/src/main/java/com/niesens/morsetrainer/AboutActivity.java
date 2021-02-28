@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2020 Claus Niesen
+ *  Copyright (C) 2021 Claus Niesen
  *
  *  This file is part of Claus' Morse Trainer.
  *
@@ -20,9 +20,10 @@
 package com.niesens.morsetrainer;
 
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class AboutActivity extends AppCompatActivity {
 

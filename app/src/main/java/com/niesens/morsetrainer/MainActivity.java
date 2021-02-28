@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2020 Claus Niesen
+ *  Copyright (C) 2021 Claus Niesen
  *
  *  This file is part of Claus' Morse Trainer.
  *
@@ -26,10 +26,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -39,6 +35,11 @@ import android.widget.CompoundButton;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.niesens.morsetrainer.filepicker.FilePickerActivity;
 

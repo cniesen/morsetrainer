@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2020 Claus Niesen
+ *  Copyright (C) 2021 Claus Niesen
  *
  *  This file is part of Claus' Morse Trainer.
  *
@@ -25,12 +25,12 @@ import java.util.List;
 import java.util.Random;
 
 public class Trainer extends AsyncTask<Void, Void, Void> {
-    private MorsePlayer morsePlayer;
-    private TextSpeaker textSpeaker;
-    private List<Word> wordList;
+    private final MorsePlayer morsePlayer;
+    private final TextSpeaker textSpeaker;
+    private final List<Word> wordList;
     private int wordTrainTimes;
     private boolean speakFirst;
-    private Random random = new Random();
+    private final Random random = new Random();
 
     Trainer(MorsePlayer morsePlayer, TextSpeaker textSpeaker, List<Word> wordList, int wordTrainTimes, boolean speakFirst) {
         this.morsePlayer = morsePlayer;

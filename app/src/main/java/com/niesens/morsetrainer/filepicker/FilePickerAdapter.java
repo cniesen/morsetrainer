@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2020 Claus Niesen
+ *  Copyright (C) 2021 Claus Niesen
  *
  *  This file is part of Claus' Morse Trainer.
  *
@@ -21,6 +21,8 @@ package com.niesens.morsetrainer.filepicker;
 
 import android.app.Activity;
 import android.content.Intent;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,12 +37,12 @@ import java.io.File;
 import java.util.List;
 
 public class FilePickerAdapter extends RecyclerView.Adapter<FilePickerAdapter.ViewHolder> {
-    private List<File> wordListFiles;
+    private final List<File> wordListFiles;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView txtHeader;
         public View layout;
@@ -58,6 +60,7 @@ public class FilePickerAdapter extends RecyclerView.Adapter<FilePickerAdapter.Vi
     }
 
     // Create new views (invoked by the layout manager)
+    @NonNull
     @Override
     public FilePickerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
@@ -67,8 +70,7 @@ public class FilePickerAdapter extends RecyclerView.Adapter<FilePickerAdapter.Vi
         View v =
                 inflater.inflate(R.layout.row_filepicker, parent, false);
         // set the view's size, margins, paddings and layout parameters
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+        return new ViewHolder(v);
     }
 
     // Replace the contents of a view (invoked by the layout manager)

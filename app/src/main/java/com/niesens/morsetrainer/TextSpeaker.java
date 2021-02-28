@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2020 Claus Niesen
+ *  Copyright (C) 2021 Claus Niesen
  *
  *  This file is part of Claus' Morse Trainer.
  *
@@ -30,9 +30,9 @@ import java.util.Locale;
 import static android.speech.tts.TextToSpeech.Engine.KEY_PARAM_VOLUME;
 
 public class TextSpeaker  {
-    private TextToSpeech textToSpeech;
-    private HashMap<String, String> textToSpeechParams;
-    private Activity activity;
+    private final TextToSpeech textToSpeech;
+    private final HashMap<String, String> textToSpeechParams;
+    private final Activity activity;
     private Object trainer;
     private int beforeSpeakDelay;
     private int afterSpeakDelay;
@@ -82,7 +82,7 @@ public class TextSpeaker  {
         textToSpeech.stop();
     }
 
-    private UtteranceProgressListener utteranceListener = new UtteranceProgressListener() {
+    private final UtteranceProgressListener utteranceListener = new UtteranceProgressListener() {
         @Override
         public void onStart(String utteranceId) {
         }

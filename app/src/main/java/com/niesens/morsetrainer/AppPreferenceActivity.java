@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2020 Claus Niesen
+ *  Copyright (C) 2021 Claus Niesen
  *
  *  This file is part of Claus' Morse Trainer.
  *
@@ -23,15 +23,17 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
-import android.view.MenuInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 /**
  * A {@link android.preference.PreferenceActivity} which implements and proxies the necessary calls
@@ -81,6 +83,7 @@ public abstract class AppPreferenceActivity extends PreferenceActivity {
         getDelegate().setSupportActionBar(toolbar);
     }
 
+    @NonNull
     @Override
     public MenuInflater getMenuInflater() {
         return getDelegate().getMenuInflater();

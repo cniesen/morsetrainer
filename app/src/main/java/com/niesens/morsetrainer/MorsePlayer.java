@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2020 Claus Niesen
+ *  Copyright (C) 2021 Claus Niesen
  *
  *  This file is part of Claus' Morse Trainer.
  *
@@ -41,8 +41,8 @@ public class MorsePlayer {
     private Sound intraCharSpace; // Space between dit and dah in each character
     private Sound interCharSpace; // Space between characters
     private Sound interWordSpace;
-    private AudioTrack audioTrack;
-    private Random random = new Random();
+    private final AudioTrack audioTrack;
+    private final Random random = new Random();
 
 
     MorsePlayer(int wpm, int farnsworth,int pitch, boolean randomPitch) {
