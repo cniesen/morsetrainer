@@ -40,7 +40,7 @@
     <string name="support">To report issues, get support or view the source code please visit the following link.</string>
     <string name="support_page_url">https://github.com/cniesen/morsetrainer</string>
     <string name="contributors_heading">Contributions</string>
-    <string name="contributors">&#8226; Nathan Crapo: improved dit &amp; dah sounds.</string>
+    <string name="contributors">&#8226; Nathan Crapo: Improved dit &amp; dah sounds.\n&#8226; deverac: Vocalize preference.</string>
     <string name="note_of_thanks">Special thanks to my CW Academy advisor Dan and buddy Matt for not giving up on me.</string>
     <string name="signature">Best wishes to your morse study,\n\tClaus Niesen (AE0S)</string>
     <string name="home_page_url">https://cqqrz.github.io/</string>
