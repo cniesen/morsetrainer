@@ -19,7 +19,7 @@
   -->
 
 <resources>
-    <string name="app_name">Claus\' Morse Trainer</string>
+    <string name="app_name">Claus\' Morse Trainer X</string>
 
     <!-- Strings related to main activity -->
     <string name="choose_practice_file">choose practice file</string>

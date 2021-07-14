@@ -7,6 +7,8 @@ and on GitHub (https://github.com/cniesen/morsetrainer/releases/latest).
 
 Premade additional wordlist can be found at: https://github.com/cniesen/morsetrainer/tree/master/additional_word_lists
 
+This version contains a quick hack to disable randomization of the words.
+
 License
 -------
 The code of Claus' Morse Trainer has been Licensed under [GNU GPL 3.0](https://github.com/cniesen/morsetrainer/blob/master/COPYING.md).

@@ -22,11 +22,11 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 29
     defaultConfig {
-        applicationId "com.niesens.morsetrainer"
+        applicationId "com.niesens.morsetrainerx"
         minSdkVersion 15
         targetSdkVersion 29
         versionCode 16
-        versionName "4.3"
+        versionName "4.3x"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary = true
     }

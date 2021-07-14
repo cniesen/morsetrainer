@@ -30,7 +30,7 @@ public class Trainer extends AsyncTask<Void, Void, Void> {
     private final List<Word> wordList;
     private int wordTrainTimes;
     private boolean speakFirst;
-    private final Random random = new Random();
+    private int wordNumber = 0;
 
     Trainer(MorsePlayer morsePlayer, TextSpeaker textSpeaker, List<Word> wordList, int wordTrainTimes, boolean speakFirst) {
         this.morsePlayer = morsePlayer;
@@ -56,8 +56,11 @@ public class Trainer extends AsyncTask<Void, Void, Void> {
             int wordTrainedCount = 0;
             while(!isCancelled()) {
                 if (word == null || wordTrainedCount >= wordTrainTimes) {
-                    int wordNumber = random.nextInt(wordList.size());
                     word = wordList.get(wordNumber);
+                    wordNumber++;
+                    if (wordNumber >= wordList.size()) {
+                        wordNumber = 0;
+                    }
                     wordTrainedCount = 0;
                 }
                 boolean speakAfter = true;
