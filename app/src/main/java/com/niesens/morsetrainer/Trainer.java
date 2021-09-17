@@ -54,30 +54,32 @@ public class Trainer extends AsyncTask<Void, Void, Void> {
         synchronized (this) {
             Word word = null;
             int wordTrainedCount = 0;
+<<<<<<< Updated upstream
             while(!isCancelled()) {
+=======
+            while (!isCancelled()) {
+>>>>>>> Stashed changes
                 if (word == null || wordTrainedCount >= wordTrainTimes) {
                     int wordNumber = random.nextInt(wordList.size());
                     word = wordList.get(wordNumber);
                     wordTrainedCount = 0;
                 }
-                boolean speakAfter = true;
                 if (speakFirst) {
-                    speakAfter = false;
-                    textSpeaker.speak(word.getSpeakText(), this);
                     try {
+                        textSpeaker.speak(word.getSpeakText(), this);
                         wait();  // wait for text-to-speech to finish
                     } catch (InterruptedException e) {
                         return null;
                     }
-                }
-                morsePlayer.play(MorseTranslate.textToMorse(word.getMorseText()));
-                if (speakAfter) {
-                    textSpeaker.speak(word.getSpeakText(), this);
+                    morsePlayer.play(MorseTranslate.textToMorse(word.getMorseText()));
+                } else {
                     try {
-                        wait(); // wait for text-to-speech to finish
+                        morsePlayer.play(MorseTranslate.textToMorse(word.getMorseText()));
+                        wait();  // wait for text-to-speech to finish
                     } catch (InterruptedException e) {
                         return null;
                     }
+                    textSpeaker.speak(word.getSpeakText(), this);
                 }
                 wordTrainedCount++;
             }
