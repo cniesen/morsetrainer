@@ -1,3 +1,5 @@
+STATUS: Google has given me the ultimatum to either upgrade the app to an API level within 2 years of the latest Android release or being removed from the app store.  Targeting a newer SDK brings lot of other requirements with it. For example Android 11 (API level 30) won't allow device storage to be accessed under the current model. As technology is being driven forward, continuing change is being forced upon us for the better and worse.  This would mean that I need to continuously play catch up just to keep the app alive in the app store.  I don't have the motivation to dedicate that much free time to doing so.  So sadly I will see my baby die.  I've extended the deadline till May 1, 2023 at which point Google will apparently pull my app from the store.  Existing installs should still work but new installs will not be possible through the Google App store.  With that this app will join the landfill among the billions of android devices that have become obsolete and can't be used anymore.  I guess you could pull one of those out of the garbage and side load the app.
+
 Claus' Morse Trainer
 ====================
 Android app to learn morse code.
