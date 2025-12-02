@@ -17,4 +17,19 @@
  *  along with Claus' Morse Trainer.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "Claus' Morse Trainer"
 include ':app'
