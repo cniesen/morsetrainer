@@ -19,13 +19,12 @@
 
 package com.niesens.morsetrainer;
 
-import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Environment;
-import android.preference.PreferenceManager;
+
+import androidx.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,13 +32,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.NumberPicker;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.niesens.morsetrainer.filepicker.FilePickerActivity;
 
@@ -86,15 +82,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             textSpeaker = new TextSpeaker(this, getDelayBeforeAnswerPreference(sharedPreferences), getDelayAfterAnswerPreference(sharedPreferences), getAnswerToastPreference(sharedPreferences), getVocalizePreference(sharedPreferences));
         }
 
-        boolean hasPermission = (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
-        if (hasPermission) {
-            createExternalStorageDirectory();
-        } else {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    REQUEST_WRITE_STORAGE);
-        }
+        createExternalStorageDirectory(this);
+
         setContentView(R.layout.activity_main);
 
         button_startStop = findViewById(R.id.startStop);
@@ -161,41 +150,23 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode)
-        {
-            case REQUEST_WRITE_STORAGE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    createExternalStorageDirectory();
-                } else {
-                    Toast.makeText(this, getString(R.string.app_name) + " closed.\nStorage read/write permission is required.", Toast.LENGTH_LONG).show();
-                    finish();
-                }
-            }
-        }
-
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == FILE_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
             stopTrainer();
             button_trainingFile.setText(data.getStringExtra("wordListFileName"));
-            wordList = createWordList(data.getStringExtra("wordListFileName"));
+            wordList = createWordList(data.getStringExtra("wordListFilePath"));
             button_startStop.setEnabled(true);
         }
     }
 
-    private List<Word> createWordList(String fileName) {
+    private List<Word> createWordList(String filePath) {
         List<Word> wordList = new ArrayList<>();
 
         BufferedReader reader = null;
         try {
-            String externalStoragePath = Environment.getExternalStorageDirectory() + "/" + getString(R.string.app_name);
-            reader = new BufferedReader(new FileReader(new File(externalStoragePath, fileName)));
+            reader = new BufferedReader(new FileReader(new File(filePath)));
 
             String line;
             while ((line = reader.readLine()) != null) {
@@ -220,16 +191,15 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         return wordList;
     }
 
-    private void createExternalStorageDirectory() {
-        String externalStoragePath = Environment.getExternalStorageDirectory() + "/" + getString(R.string.app_name);
-        File file = new File(externalStoragePath);
-        if (!file.exists()) {
-            if (file.mkdirs()) {
+    private void createExternalStorageDirectory(Context context) {
+        File dir = new File(context.getExternalFilesDir(null), "WordLists");
+        if (!dir.exists()) {
+            if (dir.mkdirs()) {
                 try {
                     String[] assetFiles = getAssets().list("");
                     for (String assetFile : assetFiles) {
                         if (assetFile.endsWith(".txt")) {
-                            copyFile(assetFile, externalStoragePath);
+                            copyFile(assetFile, dir.getPath());
                         }
                     }
                 } catch (IOException e) {
@@ -279,17 +249,18 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_settings:
-                Intent settingsIntent = new Intent(this, SettingsActivity.class);
-                startActivity(settingsIntent);
-                return true;
-            case R.id.menu_about:
-                Intent aboutIntent = new Intent(this, AboutActivity.class);
-                startActivity(aboutIntent);
-                return true;
+        int itemId = item.getItemId();
+        if (itemId == R.id.menu_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        } else if (itemId == R.id.menu_about) {
+            Intent aboutIntent = new Intent(this, AboutActivity.class);
+            startActivity(aboutIntent);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     public void onDestroy(){

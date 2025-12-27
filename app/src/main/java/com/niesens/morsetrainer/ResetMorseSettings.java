@@ -22,7 +22,7 @@ package com.niesens.morsetrainer;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.DialogPreference;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 import android.util.AttributeSet;
 
 public class ResetMorseSettings extends DialogPreference {

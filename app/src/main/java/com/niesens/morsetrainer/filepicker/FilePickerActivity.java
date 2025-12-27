@@ -19,36 +19,58 @@
 
 package com.niesens.morsetrainer.filepicker;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.niesens.morsetrainer.R;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-public class FilePickerActivity extends FragmentActivity {
+public class FilePickerActivity extends AppCompatActivity {
 
+    private File[] files;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filepicker);
-        RecyclerView recyclerView = findViewById(R.id.my_recycler_view);
-        recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
 
-        String externalStoragePath = Environment.getExternalStorageDirectory() + "/" + getString(R.string.app_name);
-        File wordListDirectory = new File(externalStoragePath);
-        File[] wordListFiles = wordListDirectory.listFiles(new WordListFileFilter());
-        Arrays.sort(wordListFiles);
-        RecyclerView.Adapter mAdapter = new FilePickerAdapter(Arrays.asList(wordListFiles));
-        recyclerView.setAdapter(mAdapter);
+        File baseDir = new File(getExternalFilesDir(null), "WordLists");
+        if (!baseDir.exists()) {
+            baseDir.mkdirs();
+        }
+
+        files = baseDir.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
+        if (files == null) {
+            files = new File[0];
+        }
+
+        Arrays.sort(files);
+
+        List<String> names = new ArrayList<>();
+        for (File f : files) {
+            names.add(f.getName());
+        }
+
+        ListView listView = findViewById(R.id.fileListView);
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            File selected = files[position];
+            Intent result = new Intent();
+            result.putExtra("wordListFileName", selected.getName());
+            result.putExtra("wordListFilePath", selected.getAbsolutePath());
+            setResult(RESULT_OK, result);
+            finish();
+        });
     }
-
-
 }
