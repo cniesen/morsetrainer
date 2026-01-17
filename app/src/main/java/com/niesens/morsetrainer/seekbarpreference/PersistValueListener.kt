@@ -17,8 +17,8 @@
  *  along with Claus' Morse Trainer.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.niesens.morsetrainer.seekbarpreference;
+package com.niesens.morsetrainer.seekbarpreference
 
-interface ChangeValueListener {
-    boolean onChange(int value);
+interface PersistValueListener {
+    fun persistInt(value: Int): Boolean
 }

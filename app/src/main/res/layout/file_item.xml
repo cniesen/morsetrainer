@@ -18,9 +18,23 @@
   ~  along with Claus' Morse Trainer.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<androidx.recyclerview.widget.RecyclerView
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fileRecyclerView"
+    android:id="@+id/fileCard"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipToPadding="false" />
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
+
+    <TextView
+        android:id="@+id/fileNameText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:textSize="18sp"
+        android:textColor="@android:color/black" />
+
+</androidx.cardview.widget.CardView>

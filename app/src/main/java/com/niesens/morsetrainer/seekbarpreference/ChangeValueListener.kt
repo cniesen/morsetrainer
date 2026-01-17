@@ -17,15 +17,8 @@
  *  along with Claus' Morse Trainer.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.niesens.morsetrainer.filepicker;
+package com.niesens.morsetrainer.seekbarpreference
 
-import java.io.File;
-import java.io.FileFilter;
-
-public class WordListFileFilter implements FileFilter {
-
-    @Override
-    public boolean accept(File pathname) {
-        return pathname.isFile() && !pathname.isHidden() && pathname.getName().toLowerCase().endsWith(".txt");
-    }
+internal interface ChangeValueListener {
+    fun onChange(value: Int): Boolean
 }
