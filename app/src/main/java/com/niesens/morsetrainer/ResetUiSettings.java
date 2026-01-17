@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2021 Claus Niesen
+ *  Copyright (C) 2021–2026 Claus Niesen
  *
  *  This file is part of Claus' Morse Trainer.
  *
