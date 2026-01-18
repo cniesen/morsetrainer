@@ -37,12 +37,12 @@ public class ResetMorseSettings extends DialogPreference {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
             sharedPreferences.edit()
-                    .putBoolean("morse_high_wpm", getContext().getResources().getBoolean(R.bool.default_morse_high_wpm))
-                    .putInt("morse_wpm", getContext().getResources().getInteger(R.integer.default_morse_wpm))
-                    .putBoolean("morse_farnsworth_enabled", getContext().getResources().getBoolean(R.bool.default_morse_farnsworth_enabled))
-                    .putInt("morse_farnsworth", getContext().getResources().getInteger(R.integer.default_morse_farnsworth))
-                    .putInt("morse_pitch", getContext().getResources().getInteger(R.integer.default_morse_pitch))
-                    .putBoolean("morse_random_pitch", getContext().getResources().getBoolean(R.bool.default_morse_random_pitch))
+                    .putBoolean("morse_high_wpm", SharedPreferencesHelper.Defaults.MORSE_HIGH_WPM)
+                    .putInt("morse_wpm", SharedPreferencesHelper.Defaults.MORSE_WPM)
+                    .putBoolean("morse_farnsworth_enabled", SharedPreferencesHelper.Defaults.MORSE_FARNSWORTH_ENABLED)
+                    .putInt("morse_farnsworth", SharedPreferencesHelper.Defaults.MORSE_FARNSWORTH)
+                    .putInt("morse_pitch", SharedPreferencesHelper.Defaults.MORSE_PITCH)
+                    .putBoolean("morse_random_pitch", SharedPreferencesHelper.Defaults.MORSE_RANDOM_PITCH)
                     .apply();
         }
     }

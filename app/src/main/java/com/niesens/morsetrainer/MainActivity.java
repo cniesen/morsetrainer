@@ -50,9 +50,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class MainActivity extends AppCompatActivity {
 
-    private static final int REQUEST_WRITE_STORAGE = 112;
     private static final int FILE_PICKER_REQUEST_CODE = 1;
 
     Button button_startStop;
@@ -67,20 +66,15 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if ("Yes".equals(getUiNightModePreference(sharedPreferences))) {
+        if ("Yes".equals(SharedPreferencesHelper.getUiNightMode(sharedPreferences))) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
         super.onCreate(savedInstanceState);
 
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-        morsePlayer = new MorsePlayer(getMorseWpmPreference(sharedPreferences), getMorseFarnsworthPreference(sharedPreferences), getMorsePitchPreference(sharedPreferences), getMorseRandomPitchPreference(sharedPreferences));
-        if (getSpeakFirstPreference(sharedPreferences)) {
-            textSpeaker = new TextSpeaker(this, getDelayAfterAnswerPreference(sharedPreferences), getDelayBeforeAnswerPreference(sharedPreferences), getAnswerToastPreference(sharedPreferences), getVocalizePreference(sharedPreferences));
-        } else {
-            textSpeaker = new TextSpeaker(this, getDelayBeforeAnswerPreference(sharedPreferences), getDelayAfterAnswerPreference(sharedPreferences), getAnswerToastPreference(sharedPreferences), getVocalizePreference(sharedPreferences));
-        }
+        morsePlayer = new MorsePlayer(sharedPreferences);
+        textSpeaker = new TextSpeaker(this, sharedPreferences);
 
         createExternalStorageDirectory(this);
 
@@ -103,14 +97,14 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, FilePickerActivity.class);
-                startActivityForResult(intent, 1);
+                startActivityForResult(intent, FILE_PICKER_REQUEST_CODE);
             }
         });
 
         numberPicker_wordTrainTimes = findViewById(R.id.wordTrainTimes);
         numberPicker_wordTrainTimes.setMinValue(1);
         numberPicker_wordTrainTimes.setMaxValue(10);
-        numberPicker_wordTrainTimes.setValue(getWordTrainTimesPreference(sharedPreferences));
+        numberPicker_wordTrainTimes.setValue(SharedPreferencesHelper.getWordTrainTimes(sharedPreferences));
         numberPicker_wordTrainTimes.setWrapSelectorWheel(false);
         numberPicker_wordTrainTimes.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
@@ -120,14 +114,14 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         });
 
         toggleButton_speakFirst = findViewById(R.id.speakFirst);
-        toggleButton_speakFirst.setChecked(getSpeakFirstPreference(sharedPreferences));
+        toggleButton_speakFirst.setChecked(SharedPreferencesHelper.getSpeakFirst(sharedPreferences));
         toggleButton_speakFirst.setOnCheckedChangeListener(new ToggleButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 sharedPreferences.edit().putBoolean("speak_first", isChecked).apply();
             }
         });
-   }
+    }
 
     private void startTrainer() {
         if (wordList == null || wordList.isEmpty()) {
@@ -135,7 +129,12 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
         button_startStop.setText(R.string.trainingStopText);
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        trainer = new Trainer(morsePlayer, textSpeaker, wordList, getWordTrainTimesPreference(sharedPreferences), toggleButton_speakFirst.isChecked());
+        trainer = new Trainer(
+                morsePlayer,
+                textSpeaker,
+                wordList,
+                sharedPreferences
+        );
         trainer.execute();
     }
 
@@ -143,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         button_startStop.setText(R.string.trainingStartText);
         if (trainer != null) {
             trainer.cancel(true);
+            trainer.destroy();
             trainer = null;
             morsePlayer.stop();
             textSpeaker.stop();
@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             out = new FileOutputStream(externalStoragePath + "/" + fileName);
             byte[] buffer = new byte[1024];
             int read;
-            while((read = in.read(buffer)) != -1) {
+            while ((read = in.read(buffer)) != -1) {
                 out.write(buffer, 0, read);
             }
             out.flush();
@@ -263,121 +263,15 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
     }
 
-    public void onDestroy(){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
-
+    @Override
+    public void onDestroy() {
         if (trainer != null) {
             trainer.cancel(true);
+            trainer.destroy();
         }
         morsePlayer.destroy();
         textSpeaker.destroy();
         super.onDestroy();
     }
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        switch (key) {
-            case "morse_wpm" :
-                morsePlayer.setWpm(getMorseWpmPreference(sharedPreferences));
-                break;
-            case "morse_farnsworth_enabled" :
-            case "morse_farnsworth" :
-                morsePlayer.setFarnsworth(getMorseFarnsworthPreference(sharedPreferences));
-                break;
-            case "morse_pitch" :
-                morsePlayer.setPitch(getMorsePitchPreference(sharedPreferences));
-                break;
-            case "morse_random_pitch" :
-                morsePlayer.setRandomPitch(getMorseRandomPitchPreference(sharedPreferences));
-                break;
-            case "delay_before_answer" :
-                if (getSpeakFirstPreference(sharedPreferences)) {
-                    textSpeaker.setAfterSpeakDelay(getDelayBeforeAnswerPreference(sharedPreferences));
-                } else {
-                    textSpeaker.setBeforeSpeakDelay(getDelayBeforeAnswerPreference(sharedPreferences));
-                }
-                break;
-            case "delay_after_answer" :
-                if (getSpeakFirstPreference(sharedPreferences)) {
-                    textSpeaker.setBeforeSpeakDelay(getDelayAfterAnswerPreference(sharedPreferences));
-                } else {
-                    textSpeaker.setAfterSpeakDelay(getDelayAfterAnswerPreference(sharedPreferences));
-                }
-                break;
-            case "answer_toast" :
-                textSpeaker.setShowToast(getAnswerToastPreference(sharedPreferences));
-                break;
-            case "answer_vocalize" :
-                textSpeaker.setVocalize(getVocalizePreference(sharedPreferences));
-                break;
-            case "word_train_times" :
-                if (trainer != null) {
-                    trainer.setWordTrainTimes(getWordTrainTimesPreference(sharedPreferences));
-                }
-                break;
-            case "speak_first" :
-                if (trainer != null) {
-                    trainer.setSpeakFirst(getSpeakFirstPreference(sharedPreferences));
-                }
-                if (getSpeakFirstPreference(sharedPreferences)) {
-                    textSpeaker.setAfterSpeakDelay(getDelayBeforeAnswerPreference(sharedPreferences));
-                    textSpeaker.setBeforeSpeakDelay(getDelayAfterAnswerPreference(sharedPreferences));
-                } else {
-                    textSpeaker.setBeforeSpeakDelay(getDelayBeforeAnswerPreference(sharedPreferences));
-                    textSpeaker.setAfterSpeakDelay(getDelayAfterAnswerPreference(sharedPreferences));
-                }
-                break;
-        }
-
-    }
-
-    private int getMorseWpmPreference(SharedPreferences sharedPreferences) {
-        return sharedPreferences.getInt("morse_wpm", getResources().getInteger(R.integer.default_morse_wpm));
-    }
-
-    private int getMorseFarnsworthPreference(SharedPreferences sharedPreferences) {
-        if (sharedPreferences.getBoolean("morse_farnsworth_enabled", getResources().getBoolean((R.bool.default_morse_farnsworth_enabled)))) {
-            return sharedPreferences.getInt("morse_farnsworth", getResources().getInteger(R.integer.default_morse_farnsworth));
-        } else {
-            return sharedPreferences.getInt("morse_wpm", getResources().getInteger(R.integer.default_morse_wpm));
-        }
-
-    }
-
-    private int getMorsePitchPreference(SharedPreferences sharedPreferences) {
-        return sharedPreferences.getInt("morse_pitch", getResources().getInteger(R.integer.default_morse_pitch));
-    }
-
-    private boolean getMorseRandomPitchPreference(SharedPreferences sharedPreferences) {
-        return sharedPreferences.getBoolean("morse_random_pitch", getResources().getBoolean(R.bool.default_morse_random_pitch));
-    }
-
-    private int getDelayBeforeAnswerPreference(SharedPreferences sharedPreferences) {
-        return sharedPreferences.getInt("delay_before_answer", getResources().getInteger(R.integer.default_delay_before_answer));
-    }
-
-    private int getDelayAfterAnswerPreference(SharedPreferences sharedPreferences) {
-        return sharedPreferences.getInt("delay_after_answer", getResources().getInteger(R.integer.default_delay_after_answer));
-    }
-
-    private boolean getAnswerToastPreference(SharedPreferences sharedPreferences) {
-        return sharedPreferences.getBoolean("answer_toast", getResources().getBoolean(R.bool.default_answer_toast));
-    }
-
-    private boolean getVocalizePreference(SharedPreferences sharedPreferences) {
-        return sharedPreferences.getBoolean("answer_vocalize", getResources().getBoolean(R.bool.default_answer_vocalize));
-    }
-
-    private String getUiNightModePreference(SharedPreferences sharedPreferences) {
-        return sharedPreferences.getString("ui_night_mode", getResources().getString(R.string.default_ui_night_mode));
-    }
-
-    private int getWordTrainTimesPreference(SharedPreferences sharedPreferences) {
-        return sharedPreferences.getInt("word_train_times", 1);
-    }
-
-    private boolean getSpeakFirstPreference(SharedPreferences sharedPreferences) {
-        return sharedPreferences.getBoolean("speak_first", false);
-    }
 }

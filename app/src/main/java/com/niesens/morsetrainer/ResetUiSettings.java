@@ -35,7 +35,7 @@ public class ResetUiSettings extends DialogPreference {
     protected void onDialogClosed(boolean positiveResult) {
         if (positiveResult) {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-            sharedPreferences.edit().putString("ui_night_mode", getContext().getResources().getString(R.string.default_ui_night_mode)).apply();
+            sharedPreferences.edit().putString("ui_night_mode", SharedPreferencesHelper.Defaults.UI_NIGHT_MODE).apply();
         }
     }
 }

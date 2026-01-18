@@ -35,10 +35,12 @@ public class ResetAnswerSettings extends DialogPreference {
     protected void onDialogClosed(boolean positiveResult) {
         if (positiveResult) {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-            sharedPreferences.edit().putInt("delay_before_answer", getContext().getResources().getInteger(R.integer.default_delay_before_answer)).apply();
-            sharedPreferences.edit().putInt("delay_after_answer", getContext().getResources().getInteger(R.integer.default_delay_after_answer)).apply();
-            sharedPreferences.edit().putBoolean("answer_toast", getContext().getResources().getBoolean(R.bool.default_answer_toast)).apply();
-            sharedPreferences.edit().putBoolean("answer_vocalize", getContext().getResources().getBoolean(R.bool.default_answer_vocalize)).apply();
+            sharedPreferences.edit()
+                    .putInt("delay_before_answer", SharedPreferencesHelper.Defaults.DELAY_BEFORE_ANSWER)
+                    .putInt("delay_after_answer", SharedPreferencesHelper.Defaults.DELAY_AFTER_ANSWER)
+                    .putBoolean("answer_toast", SharedPreferencesHelper.Defaults.ANSWER_TOAST)
+                    .putBoolean("answer_vocalize", SharedPreferencesHelper.Defaults.ANSWER_VOCALIZE)
+                    .apply();
         }
     }
 }

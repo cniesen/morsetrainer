@@ -20,6 +20,7 @@
 package com.niesens.morsetrainer;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.widget.Toast;
@@ -29,7 +30,11 @@ import java.util.Locale;
 
 import static android.speech.tts.TextToSpeech.Engine.KEY_PARAM_VOLUME;
 
-public class TextSpeaker  {
+import androidx.annotation.Nullable;
+
+public class TextSpeaker implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+    private final SharedPreferences sharedPreferences;
     private final TextToSpeech textToSpeech;
     private final HashMap<String, String> textToSpeechParams;
     private final Activity activity;
@@ -39,12 +44,55 @@ public class TextSpeaker  {
     private boolean showToast;
     private boolean vocalize;
 
-    TextSpeaker(Activity activity, int beforeSpeakDelay, int afterSpeakDelay, boolean showToast, boolean vocalize) {
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String key) {
+        if (key == null) return;
+        switch (key) {
+            case "delay_before_answer":
+                if (SharedPreferencesHelper.getSpeakFirst(sharedPreferences)) {
+                    setAfterSpeakDelay(SharedPreferencesHelper.getDelayBeforeAnswer(sharedPreferences));
+                } else {
+                    setBeforeSpeakDelay(SharedPreferencesHelper.getDelayBeforeAnswer(sharedPreferences));
+                }
+                break;
+            case "delay_after_answer":
+                if (SharedPreferencesHelper.getSpeakFirst(sharedPreferences)) {
+                    setBeforeSpeakDelay(SharedPreferencesHelper.getDelayAfterAnswer(sharedPreferences));
+                } else {
+                    setAfterSpeakDelay(SharedPreferencesHelper.getDelayAfterAnswer(sharedPreferences));
+                }
+                break;
+            case "answer_toast":
+                setShowToast(SharedPreferencesHelper.getAnswerToast(sharedPreferences));
+                break;
+            case "answer_vocalize":
+                setVocalize(SharedPreferencesHelper.getAnswerVocalize(sharedPreferences));
+                break;
+            case "speak_first":
+                if (SharedPreferencesHelper.getSpeakFirst(sharedPreferences)) {
+                    setAfterSpeakDelay(SharedPreferencesHelper.getDelayBeforeAnswer(sharedPreferences));
+                    setBeforeSpeakDelay(SharedPreferencesHelper.getDelayAfterAnswer(sharedPreferences));
+                } else {
+                    setBeforeSpeakDelay(SharedPreferencesHelper.getDelayBeforeAnswer(sharedPreferences));
+                    setAfterSpeakDelay(SharedPreferencesHelper.getDelayAfterAnswer(sharedPreferences));
+                }
+                break;
+        }
+    }
+
+    TextSpeaker(Activity activity, SharedPreferences sharedPreferences) {
         this.activity = activity;
-        this.beforeSpeakDelay = beforeSpeakDelay;
-        this.afterSpeakDelay = afterSpeakDelay;
-        this.showToast = showToast;
-        this.vocalize = vocalize;
+        this.sharedPreferences = sharedPreferences;
+        if (SharedPreferencesHelper.getSpeakFirst(sharedPreferences)) {
+            this.beforeSpeakDelay = SharedPreferencesHelper.getDelayAfterAnswer(sharedPreferences);
+            this.afterSpeakDelay = SharedPreferencesHelper.getDelayBeforeAnswer(sharedPreferences);
+        } else {
+            this.beforeSpeakDelay = SharedPreferencesHelper.getDelayBeforeAnswer(sharedPreferences);
+            this.afterSpeakDelay = SharedPreferencesHelper.getDelayAfterAnswer(sharedPreferences);
+        }
+        this.showToast = SharedPreferencesHelper.getAnswerToast(sharedPreferences);
+        this.vocalize = SharedPreferencesHelper.getAnswerVocalize(sharedPreferences);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
         textToSpeech = new TextToSpeech(activity, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -107,6 +155,7 @@ public class TextSpeaker  {
     public void destroy() {
         textToSpeech.stop();
         textToSpeech.shutdown();
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 
     public int getBeforeSpeakDelay() {

@@ -24,7 +24,6 @@
     <PreferenceCategory>
 
         <SwitchPreference
-            android:defaultValue="@bool/default_morse_high_wpm"
             android:key="morse_high_wpm"
             android:title="@string/pref_title_morse_high_wpm"
             android:summary="@string/pref_description_morse_high_wpm"/>
@@ -33,14 +32,13 @@
             android:key="morse_wpm"
             android:title="@string/pref_title_morse_wpm"
             android:summary="@string/pref_description_morse_wpm"
-            android:defaultValue="@integer/default_morse_wpm"
             sample:msbp_minValue="1"
             sample:msbp_maxValue="100"
             sample:msbp_interval="1"
             sample:msbp_measurementUnit="wpm"/>
 
         <SwitchPreference
-            android:defaultValue="@bool/default_morse_farnsworth_enabled"
+            android:defaultValue="bool/default_morse_farnsworth_enabled"
             android:key="morse_farnsworth_enabled"
             android:title="@string/pref_title_morse_farnsworth_enabled"
             android:summary="@string/pref_description_morse_farnsworth_enabled"
@@ -50,7 +48,6 @@
             android:key="morse_farnsworth"
             android:title="@string/pref_title_morse_farnsworth"
             android:summary="@string/pref_description_morse_farnsworth"
-            android:defaultValue="@integer/default_morse_farnsworth"
             sample:msbp_minValue="1"
             sample:msbp_maxValue="100"
             sample:msbp_interval="1"
@@ -61,7 +58,6 @@
             android:key="morse_pitch"
             android:title="@string/pref_title_morse_pitch"
             android:summary="@string/pref_description_morse_pitch"
-            android:defaultValue="@integer/default_morse_pitch"
             sample:msbp_minValue="200"
             sample:msbp_maxValue="2000"
             sample:msbp_interval="50"
@@ -69,7 +65,6 @@
             android:dependency="morse_random_pitch"/>
 
         <SwitchPreference
-            android:defaultValue="@bool/default_morse_random_pitch"
             android:key="morse_random_pitch"
             android:title="@string/pref_title_morse_random_pitch"
             android:summary="@string/pref_description_morse_random_pitch"

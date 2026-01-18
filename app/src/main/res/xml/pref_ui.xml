@@ -23,7 +23,7 @@
     <PreferenceCategory>
 
         <ListPreference
-            android:defaultValue="@string/default_ui_night_mode"
+            android:defaultValue="fooBar"
             android:entries="@array/ui_night_mode_options"
             android:entryValues="@array/ui_night_mode_options"
             android:key="ui_night_mode"

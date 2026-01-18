@@ -19,12 +19,16 @@
 
 package com.niesens.morsetrainer;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+
+import androidx.annotation.Nullable;
 
 import java.util.List;
 import java.util.Random;
 
-public class Trainer extends AsyncTask<Void, Void, Void> {
+public class Trainer extends AsyncTask<Void, Void, Void> implements SharedPreferences.OnSharedPreferenceChangeListener {
+    private final SharedPreferences sharedPreferences;
     private final MorsePlayer morsePlayer;
     private final TextSpeaker textSpeaker;
     private final List<Word> wordList;
@@ -32,12 +36,28 @@ public class Trainer extends AsyncTask<Void, Void, Void> {
     private boolean speakFirst;
     private final Random random = new Random();
 
-    Trainer(MorsePlayer morsePlayer, TextSpeaker textSpeaker, List<Word> wordList, int wordTrainTimes, boolean speakFirst) {
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String key) {
+        if (key == null) return;
+        switch (key) {
+
+            case "word_train_times":
+                setWordTrainTimes(SharedPreferencesHelper.getWordTrainTimes(sharedPreferences));
+                break;
+            case "speak_first":
+                setSpeakFirst(SharedPreferencesHelper.getSpeakFirst(sharedPreferences));
+                break;
+        }
+    }
+
+    Trainer(MorsePlayer morsePlayer, TextSpeaker textSpeaker, List<Word> wordList, SharedPreferences sharedPreferences) {
+        this.sharedPreferences = sharedPreferences;
         this.morsePlayer = morsePlayer;
         this.textSpeaker = textSpeaker;
         this.wordList = wordList;
-        this.wordTrainTimes = wordTrainTimes;
-        this.speakFirst = speakFirst;
+        this.wordTrainTimes = SharedPreferencesHelper.getWordTrainTimes(sharedPreferences);
+        this.speakFirst = SharedPreferencesHelper.getSpeakFirst(sharedPreferences);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     public void setWordTrainTimes(int wordTrainTimes) {
@@ -83,6 +103,10 @@ public class Trainer extends AsyncTask<Void, Void, Void> {
             }
         }
         return null;
+    }
+
+    public void destroy() {
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 
 }

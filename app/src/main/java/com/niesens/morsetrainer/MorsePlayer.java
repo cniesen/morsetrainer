@@ -19,17 +19,21 @@
 
 package com.niesens.morsetrainer;
 
+import android.content.SharedPreferences;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
+
+import androidx.annotation.Nullable;
 
 import java.util.Random;
 
 // See https://morsecode.scphillips.com/timing.html for info about morse code;
 // including WPM calculations, terminilogy, and others.
-public class MorsePlayer {
+public class MorsePlayer implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final int SAMPLE_RATE_HZ = 48000;
 
+    private final SharedPreferences sharedPreferences;
     private int charPosition;
     private int wpm;
     private int farnsworth;
@@ -44,18 +48,39 @@ public class MorsePlayer {
     private final AudioTrack audioTrack;
     private final Random random = new Random();
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String key) {
+        if (key == null) return;
+        switch (key) {
+            case "morse_wpm":
+                setWpm(SharedPreferencesHelper.getMorseWpm(sharedPreferences));
+                break;
+            case "morse_farnsworth_enabled":
+            case "morse_farnsworth":
+                setFarnsworth(SharedPreferencesHelper.getMorseFarnsworth(sharedPreferences));
+                break;
+            case "morse_pitch":
+                setPitch(SharedPreferencesHelper.getMorsePitch(sharedPreferences));
+                break;
+            case "morse_random_pitch":
+                setRandomPitch(SharedPreferencesHelper.getMorseRandomPitch(sharedPreferences));
+                break;
+        }
+    }
 
-    MorsePlayer(int wpm, int farnsworth,int pitch, boolean randomPitch) {
-        this.wpm = wpm;
-        this.farnsworth = (farnsworth > getWpm()) ? getWpm() : farnsworth;
-        this.pitch = pitch;
+    MorsePlayer(SharedPreferences sharedPreferences) {
+        this.sharedPreferences = sharedPreferences;
+        this.wpm = SharedPreferencesHelper.getMorseWpm(sharedPreferences);
+        this.farnsworth = Math.min(SharedPreferencesHelper.getMorseFarnsworth(sharedPreferences), getWpm());
+        this.pitch = SharedPreferencesHelper.getMorsePitch(sharedPreferences);
         setCurrentPitch(pitch);
-        this.randomPitch = randomPitch;
+        this.randomPitch = SharedPreferencesHelper.getMorseRandomPitch(sharedPreferences);
         updateDitSound();
         updateDahSound();
         updateIntraCharSpace();
         updateInterCharSpace();
         updateInterWordSpace();
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
         int bufferSize = AudioTrack.getMinBufferSize(SAMPLE_RATE_HZ, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT);
         audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE_HZ, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, bufferSize, AudioTrack.MODE_STREAM);
@@ -193,6 +218,7 @@ public class MorsePlayer {
     public void destroy() {
         audioTrack.stop();
         audioTrack.release();
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 }
 

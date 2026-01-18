@@ -193,28 +193,28 @@ public class SettingsActivity extends AppPreferenceActivity {
             Preference preference = findPreference(key);
             switch (key) {
                 case "morse_high_wpm":
-                    ((SwitchPreference) preference).setChecked(getMorseHighWpmPreference(sharedPreferences));
-                    if (getMorseHighWpmPreference(sharedPreferences)) {
+                    ((SwitchPreference) preference).setChecked(SharedPreferencesHelper.getMorseHighWpm(sharedPreferences));
+                    if (SharedPreferencesHelper.getMorseHighWpm(sharedPreferences)) {
                         ((SeekBarPreference) findPreference("morse_wpm")).setMaxValue(100);
                     } else {
                         ((SeekBarPreference) findPreference("morse_wpm")).setMaxValue(50);
                     }
                     break;
                 case "morse_wpm" :
-                    ((SeekBarPreference) preference).setCurrentValue(getMorseWpmPreference(sharedPreferences));
-                    ((SeekBarPreference) findPreference("morse_farnsworth")).setMaxValue(getMorseWpmPreference(sharedPreferences));
+                    ((SeekBarPreference) preference).setCurrentValue(SharedPreferencesHelper.getMorseWpm(sharedPreferences));
+                    ((SeekBarPreference) findPreference("morse_farnsworth")).setMaxValue(SharedPreferencesHelper.getMorseWpm(sharedPreferences));
                     break;
                 case "morse_farnsworth_enabled" :
-                    ((SwitchPreference) preference).setChecked(getMorseFarnsworthEnabledPreference(sharedPreferences));
+                    ((SwitchPreference) preference).setChecked(SharedPreferencesHelper.getMorseFarnsworthEnabled(sharedPreferences));
                     break;
                 case "morse_farnsworth" :
-                    ((SeekBarPreference) preference).setCurrentValue(getMorseFarnsworthPreference(sharedPreferences));
+                    ((SeekBarPreference) preference).setCurrentValue(SharedPreferencesHelper.getMorseFarnsworth(sharedPreferences));
                     break;
                 case "morse_pitch" :
-                    ((SeekBarPreference) preference).setCurrentValue(getMorsePitchPreference(sharedPreferences));
+                    ((SeekBarPreference) preference).setCurrentValue(SharedPreferencesHelper.getMorsePitch(sharedPreferences));
                     break;
                 case "morse_random_pitch" :
-                    ((SwitchPreference) preference).setChecked(getMorseRandomPitchPreference(sharedPreferences));
+                    ((SwitchPreference) preference).setChecked(SharedPreferencesHelper.getMorseRandomPitch(sharedPreferences));
                     break;
             }
         }
@@ -225,12 +225,12 @@ public class SettingsActivity extends AppPreferenceActivity {
             SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
             sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
-            if (getMorseHighWpmPreference(getPreferenceScreen().getSharedPreferences())) {
+            if (SharedPreferencesHelper.getMorseHighWpm(getPreferenceScreen().getSharedPreferences())) {
                 ((SeekBarPreference) findPreference("morse_wpm")).setMaxValue(100);
             } else {
                 ((SeekBarPreference) findPreference("morse_wpm")).setMaxValue(50);
             }
-            ((SeekBarPreference) findPreference("morse_farnsworth")).setMaxValue(getMorseWpmPreference(sharedPreferences));
+            ((SeekBarPreference) findPreference("morse_farnsworth")).setMaxValue(SharedPreferencesHelper.getMorseWpm(sharedPreferences));
         }
 
         @Override
@@ -238,30 +238,6 @@ public class SettingsActivity extends AppPreferenceActivity {
             super.onPause();
             getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         }
-
-        private boolean getMorseHighWpmPreference(SharedPreferences sharedPreferences) {
-            return sharedPreferences.getBoolean("morse_high_wpm", getResources().getBoolean(R.bool.default_morse_high_wpm));
-        }
-        private int getMorseWpmPreference(SharedPreferences sharedPreferences) {
-            return sharedPreferences.getInt("morse_wpm", getResources().getInteger(R.integer.default_morse_wpm));
-        }
-
-        private boolean getMorseFarnsworthEnabledPreference(SharedPreferences sharedPreferences) {
-            return sharedPreferences.getBoolean("morse_farnsworth_enabled", getResources().getBoolean(R.bool.default_morse_farnsworth_enabled));
-        }
-
-        private int getMorseFarnsworthPreference(SharedPreferences sharedPreferences) {
-            return sharedPreferences.getInt("morse_farnsworth", getResources().getInteger(R.integer.default_morse_farnsworth));
-        }
-
-        private int getMorsePitchPreference(SharedPreferences sharedPreferences) {
-            return sharedPreferences.getInt("morse_pitch", getResources().getInteger(R.integer.default_morse_pitch));
-        }
-
-        private boolean getMorseRandomPitchPreference(SharedPreferences sharedPreferences) {
-            return sharedPreferences.getBoolean("morse_random_pitch", getResources().getBoolean(R.bool.default_morse_random_pitch));
-        }
-
     }
 
     /**
@@ -292,16 +268,16 @@ public class SettingsActivity extends AppPreferenceActivity {
             Preference preference = findPreference(key);
             switch (key) {
                 case "delay_before_answer" :
-                    ((SeekBarPreference) preference).setCurrentValue(getDelayBeforeAnswerPreference(sharedPreferences));
+                    ((SeekBarPreference) preference).setCurrentValue(SharedPreferencesHelper.getDelayBeforeAnswer(sharedPreferences));
                     break;
                 case "delay_after_answer" :
-                    ((SeekBarPreference) preference).setCurrentValue(getDelayAfterAnswerPreference(sharedPreferences));
+                    ((SeekBarPreference) preference).setCurrentValue(SharedPreferencesHelper.getDelayAfterAnswer(sharedPreferences));
                     break;
                 case "answer_toast" :
-                    ((SwitchPreference) preference).setChecked(getAnswerToastPreference(sharedPreferences));
+                    ((SwitchPreference) preference).setChecked(SharedPreferencesHelper.getAnswerToast(sharedPreferences));
                     break;
                 case "answer_vocalize" :
-                    ((SwitchPreference) preference).setChecked(getAnswerVocalizePreference(sharedPreferences));
+                    ((SwitchPreference) preference).setChecked(SharedPreferencesHelper.getAnswerVocalize(sharedPreferences));
                     break;
             }
         }
@@ -320,21 +296,6 @@ public class SettingsActivity extends AppPreferenceActivity {
                     .unregisterOnSharedPreferenceChangeListener(this);
         }
 
-        private int getDelayBeforeAnswerPreference(SharedPreferences sharedPreferences) {
-            return sharedPreferences.getInt("delay_before_answer", getResources().getInteger(R.integer.default_delay_before_answer));
-        }
-
-        private int getDelayAfterAnswerPreference(SharedPreferences sharedPreferences) {
-            return sharedPreferences.getInt("delay_after_answer", getResources().getInteger(R.integer.default_delay_after_answer));
-        }
-
-        private boolean getAnswerToastPreference(SharedPreferences sharedPreferences) {
-            return sharedPreferences.getBoolean("answer_toast", getResources().getBoolean(R.bool.default_answer_toast));
-        }
-
-        private boolean getAnswerVocalizePreference(SharedPreferences sharedPreferences) {
-            return sharedPreferences.getBoolean("answer_vocalize", getResources().getBoolean(R.bool.default_answer_vocalize));
-        }
     }
 
     /**
@@ -364,8 +325,8 @@ public class SettingsActivity extends AppPreferenceActivity {
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             Preference preference = findPreference(key);
             if ("ui_night_mode".equals(key)) {
-                ((ListPreference) preference).setValue(getUiNightModePreference(sharedPreferences));
-                if ("Yes".equals(getUiNightModePreference(sharedPreferences))) {
+                ((ListPreference) preference).setValue(SharedPreferencesHelper.getUiNightMode(sharedPreferences));
+                if ("Yes".equals(SharedPreferencesHelper.getUiNightMode(sharedPreferences))) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -385,10 +346,6 @@ public class SettingsActivity extends AppPreferenceActivity {
             super.onPause();
             getPreferenceScreen().getSharedPreferences()
                     .unregisterOnSharedPreferenceChangeListener(this);
-        }
-
-        private String getUiNightModePreference(SharedPreferences sharedPreferences) {
-            return sharedPreferences.getString("ui_night_mode", getResources().getString(R.string.default_ui_night_mode));
         }
     }
 
